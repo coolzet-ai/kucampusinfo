@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>건국대학교 캠퍼스타운사업단 · 입주기업 디렉토리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+:root{
+  --paper: #EFEAD9;
+  --paper-2: #E6E0CB;
+  --card: #F7F4E9;
+  --ink: #1E2A22;
+  --ink-soft: #4B5A4C;
+  --line: #C7BD9E;
+  --green: #2F5233;
+  --green-soft: #3F6B45;
+  --sienna: #A8511F;
+  --denim: #33517A;
+  --olive: #6B6B23;
+  --mustard: #A67C1E;
+  --rose: #7A3B44;
+  --grey: #8A8371;
+  --bg-chip: #E3DCC3;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:15.5px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 80px;}
+
+a{color:inherit;}
+
+/* ---------- HERO ---------- */
+.hero{
+  padding:56px 0 28px;
+  border-bottom:1px solid var(--line);
+}
+.hero-eyebrow-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:22px;
+}
+.tag-ku{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  letter-spacing:.02em;
+  color:var(--green);
+  border:1px solid var(--green);
+  padding:3px 9px;
+  border-radius:2px;
+}
+.hero-meta-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:4px;
+}
+.tag-date{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+}
+.tag-author{
+  font-size:12px;
+  color:var(--grey);
+}
+.tag-author a{
+  color:var(--grey);
+  text-decoration:underline;
+  text-decoration-color:var(--line);
+  text-underline-offset:2px;
+}
+.tag-author a:hover{color:var(--green);text-decoration-color:var(--green);}
+.hero-title{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(34px,5vw,54px);
+  line-height:1.18;
+  margin:0 0 18px;
+  letter-spacing:-0.01em;
+}
+.hero-sub{
+  max-width:56ch;
+  color:var(--ink-soft);
+  font-size:16.5px;
+  margin:0 0 30px;
+}
+.stat-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0;
+  border-top:1px solid var(--line);
+}
+.stat-item{
+  flex:1 1 140px;
+  padding:16px 18px 4px 0;
+  border-right:1px solid var(--line);
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+  font-family:'IBM Plex Mono',monospace;
+  font-weight:600;
+  font-size:30px;
+  color:var(--sienna);
+  display:block;
+}
+.stat-label{
+  font-size:13px;
+  color:var(--ink-soft);
+}
+
+/* ---------- JUMPNAV ---------- */
+.jumpnav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 22px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+  font-size:13.5px;
+  position:sticky;
+  top:0;
+  background:var(--paper);
+  z-index:20;
+}
+.jumpnav a{
+  text-decoration:none;
+  color:var(--ink-soft);
+  padding:4px 0;
+  border-bottom:2px solid transparent;
+}
+.jumpnav a:hover{color:var(--green);border-bottom-color:var(--green);}
+
+/* ---------- SECTIONS ---------- */
+.section{
+  padding:44px 0 8px;
+  border-bottom:1px solid var(--line);
+  scroll-margin-top:52px;
+}
+.sec-title{
+  font-family:'Gowun Batang',serif;
+  font-size:25px;
+  font-weight:700;
+  margin:0 0 10px;
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+}
+.sec-no{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  font-weight:500;
+  color:var(--grey);
+  border:1px solid var(--line);
+  padding:2px 7px;
+  border-radius:2px;
+}
+.sec-desc{
+  color:var(--ink-soft);
+  font-size:14.5px;
+  max-width:70ch;
+  margin:0 0 24px;
+}
+
+/* ---------- MAP ---------- */
+.space-map{
+  width:100%;
+  height:360px;
+  border:1px solid var(--line);
+  margin-bottom:18px;
+  background:var(--card);
+  filter:sepia(8%) saturate(85%);
+}
+.leaflet-popup-content-wrapper{
+  border-radius:2px;
+  font-family:'Pretendard Variable',sans-serif;
+}
+.map-pop-title{font-weight:600;margin-bottom:4px;}
+.map-pop-addr{font-size:12px;color:var(--ink-soft);margin-bottom:6px;}
+.map-pop-count{
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--sienna);
+  font-size:13px;
+}
+
+/* ---------- SPACE CARDS ---------- */
+.space-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  margin-bottom:30px;
+}
+.space-card{
+  background:var(--card);
+  padding:18px 18px 16px;
+  cursor:pointer;
+  transition:background .15s ease;
+}
+.space-card:hover{background:var(--bg-chip);}
+.space-card.is-active{background:var(--green);color:#F7F4E9;}
+.space-card.is-active .space-name,
+.space-card.is-active .space-sub{color:#F7F4E9;}
+.space-name{
+  font-weight:600;
+  font-size:15.5px;
+  margin-bottom:10px;
+  display:block;
+}
+.space-count{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:26px;
+  font-weight:600;
+  color:var(--sienna);
+}
+.space-card.is-active .space-count{color:#F3C9A6;}
+.space-unit{font-size:12.5px;color:var(--ink-soft);margin-left:4px;}
+.space-card.is-active .space-unit{color:#DCE6D5;}
+.space-sub{
+  font-size:12.5px;
+  color:var(--ink-soft);
+  margin-top:8px;
+}
+.space-addr{
+  font-size:11.5px;
+  color:var(--grey);
+  margin-top:8px;
+  line-height:1.5;
+  border-top:1px dotted var(--line);
+  padding-top:8px;
+}
+.space-card.is-active .space-addr{color:#DCE6D5;border-top-color:rgba(255,255,255,.25);}
+
+/* ---------- FIELD TABS ---------- */
+.field-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:22px;
+}
+.ftab{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  padding:7px 14px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:var(--card);
+  cursor:pointer;
+  color:var(--ink-soft);
+}
+.ftab.is-active{
+  background:var(--ink);
+  border-color:var(--ink);
+  color:var(--paper);
+}
+.field-bars{margin-bottom:26px;}
+.fbar-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:9px;
+  font-size:13.5px;
+}
+.fbar-label{width:120px;flex:0 0 120px;color:var(--ink-soft);}
+.fbar-track{flex:1;background:var(--paper-2);height:16px;position:relative;border-radius:2px;overflow:hidden;}
+.fbar-fill{position:absolute;left:0;top:0;bottom:0;background:var(--green-soft);border-radius:2px;}
+.fbar-num{width:78px;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--ink);}
+.fbar-pct{color:var(--ink-soft);font-size:12px;margin-left:4px;}
+
+.field-list{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  border-top:1px solid var(--line);
+}
+.flist-row{
+  display:grid;
+  grid-template-columns: 90px 1fr 2fr;
+  gap:16px;
+  padding:12px 4px;
+  border-bottom:1px solid var(--line);
+  font-size:14px;
+  align-items:baseline;
+}
+.flist-name{font-weight:600;}
+.flist-ceo{color:var(--ink-soft);font-size:12.5px;}
+.flist-item{color:var(--ink-soft);}
+.flist-space{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;
+  color:var(--grey);
+}
+
+/* ---------- OFFICE SPLIT ---------- */
+.office-split{
+  display:flex;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  margin-bottom:10px;
+}
+.office-block{
+  flex:1;
+  background:var(--card);
+  padding:20px;
+  cursor:pointer;
+}
+.office-block:hover{background:var(--bg-chip);}
+.office-block.is-active{background:var(--denim);}
+.office-block.is-active .office-num,
+.office-block.is-active .office-label,
+.office-block.is-active .office-detail{color:#EFEAD9;}
+.office-num{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:34px;
+  font-weight:600;
+  color:var(--denim);
+}
+.office-label{font-size:14px;margin-top:2px;}
+.office-detail{font-size:12.5px;color:var(--ink-soft);margin-top:10px;line-height:1.7;}
+
+/* ---------- CAMPUS SPLIT ---------- */
+.campus-split{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.campus-block{
+  background:var(--card);
+  padding:18px;
+  cursor:pointer;
+}
+.campus-block:hover{background:var(--bg-chip);}
+.campus-block.is-active{background:var(--mustard);}
+.campus-block.is-active .campus-num,
+.campus-block.is-active .campus-label{color:#2A2110;}
+.campus-num{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:28px;
+  font-weight:600;
+  color:var(--mustard);
+}
+.campus-label{font-size:13.5px;margin-top:4px;color:var(--ink-soft);}
+
+/* ---------- BIZTYPE ---------- */
+.biztype-split{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.biz-block{
+  background:var(--card);
+  padding:18px;
+  cursor:pointer;
+}
+.biz-block:hover{background:var(--bg-chip);}
+.biz-block.is-active{background:var(--sienna);}
+.biz-block.is-active .biz-num,
+.biz-block.is-active .biz-label{color:#FBF0E6;}
+.biz-num{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:28px;
+  font-weight:600;
+  color:var(--sienna);
+}
+.biz-label{font-size:13.5px;margin-top:4px;color:var(--ink-soft);}
+
+/* ---------- CAMPUS RATIO ---------- */
+.campus-ratio{
+  margin-top:16px;
+  padding:16px 18px;
+  border:1px dashed var(--line);
+  font-size:13.5px;
+  color:var(--ink-soft);
+  background:var(--card);
+}
+.campus-ratio b{
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--green);
+  font-size:15px;
+}
+
+/* ---------- NEWIND ---------- */
+.newind-summary{
+  display:flex;
+  gap:28px;
+  margin-bottom:20px;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+.newind-summary b{
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--rose);
+  font-size:20px;
+}
+.newind-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.ntag{
+  font-size:13px;
+  padding:7px 12px;
+  border:1px solid var(--line);
+  border-radius:3px;
+  background:var(--card);
+  cursor:pointer;
+  color:var(--ink-soft);
+}
+.ntag .ntag-count{
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--rose);
+  margin-left:6px;
+}
+.ntag.is-active{background:var(--rose);border-color:var(--rose);color:var(--paper);}
+.ntag.is-active .ntag-count{color:var(--paper);}
+
+/* ---------- TIMELINE ---------- */
+.timeline{
+  display:flex;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  margin-bottom:10px;
+}
+.tl-block{
+  flex:1;
+  background:var(--card);
+  padding:18px;
+  cursor:pointer;
+  position:relative;
+}
+.tl-block:hover{background:var(--bg-chip);}
+.tl-block.is-active{background:var(--olive);}
+.tl-block.is-active .tl-date,
+.tl-block.is-active .tl-num,
+.tl-block.is-active .tl-label{color:#F3F2E6;}
+.tl-date{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+  display:block;
+  margin-bottom:6px;
+}
+.tl-num{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:28px;
+  font-weight:600;
+  color:var(--olive);
+}
+.tl-label{font-size:12px;color:var(--ink-soft);}
+
+/* ---------- FILTER BAR ---------- */
+.filter-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:14px;
+}
+.filter-bar input[type=text]{
+  flex:1 1 240px;
+}
+.filter-bar input,.filter-bar select{
+  font-family:'Pretendard Variable',sans-serif;
+  font-size:13.5px;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--ink);
+  border-radius:2px;
+}
+.filter-bar button{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12.5px;
+  padding:9px 14px;
+  border:1px solid var(--ink);
+  background:var(--ink);
+  color:var(--paper);
+  border-radius:2px;
+  cursor:pointer;
+}
+.filter-bar button:hover{background:var(--green);border-color:var(--green);}
+
+.result-count{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  margin-bottom:10px;
+}
+.result-count b{color:var(--sienna);}
+
+/* ---------- TABLE ---------- */
+.table-scroll{
+  overflow-x:auto;
+  border:1px solid var(--line);
+  margin-bottom:20px;
+}
+table{
+  width:max-content;
+  min-width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+  background:var(--card);
+}
+thead th{
+  text-align:left;
+  font-family:'IBM Plex Mono',monospace;
+  font-weight:500;
+  font-size:11.5px;
+  color:var(--ink-soft);
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+  background:var(--paper-2);
+  white-space:nowrap;
+  position:sticky;
+  top:52px;
+}
+tbody td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+  white-space:nowrap;
+}
+tbody tr:hover{background:var(--bg-chip);}
+.cell-no{font-family:'IBM Plex Mono',monospace;color:var(--grey);}
+.cell-name{font-weight:600;white-space:nowrap;}
+.cell-item{color:var(--ink-soft);max-width:340px;white-space:normal;}
+.cell-field{white-space:nowrap;}
+.badge{white-space:nowrap;}
+.badge{
+  display:inline-block;
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:20px;
+  font-weight:500;
+}
+.badge-개별오피스{background:#D8DCE6;color:var(--denim);}
+.badge-공유오피스{background:#E3DCC3;color:var(--mustard);}
+.badge-yes{background:#EBD9DA;color:var(--rose);}
+.badge-no{background:transparent;color:var(--grey);}
+.field-dot{
+  display:inline-block;
+  width:8px;height:8px;
+  border-radius:50%;
+  margin-right:6px;
+}
+
+.cell-name-btn{
+  background:none;
+  border:none;
+  padding:0;
+  font:inherit;
+  font-weight:600;
+  color:var(--ink);
+  cursor:pointer;
+  text-decoration:underline;
+  text-decoration-color:var(--line);
+  text-underline-offset:3px;
+  white-space:nowrap;
+}
+.cell-name-btn:hover{color:var(--green);text-decoration-color:var(--green);}
+.flist-name-btn{
+  background:none;border:none;padding:0;font:inherit;font-weight:600;color:var(--ink);
+  cursor:pointer;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px;
+}
+.flist-name-btn:hover{color:var(--green);text-decoration-color:var(--green);}
+
+/* ---------- MODAL ---------- */
+.modal-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(20,22,16,.45);
+  z-index:100;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modal-backdrop.is-open{display:flex;}
+.modal-card{
+  background:var(--card);
+  border:1px solid var(--ink);
+  max-width:420px;
+  width:100%;
+  padding:26px 24px 22px;
+  position:relative;
+  max-height:86vh;
+  overflow-y:auto;
+}
+.modal-close{
+  position:absolute;
+  top:10px;right:14px;
+  background:none;
+  border:none;
+  font-size:22px;
+  line-height:1;
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.modal-close:hover{color:var(--ink);}
+.modal-name{
+  font-family:'Gowun Batang',serif;
+  font-size:21px;
+  font-weight:700;
+  margin:0 0 4px;
+}
+.modal-meta{
+  font-size:12.5px;
+  color:var(--ink-soft);
+  margin-bottom:16px;
+}
+.modal-section{margin-bottom:14px;}
+.modal-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  color:var(--grey);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  margin-bottom:5px;
+}
+.modal-value{font-size:14.5px;margin-bottom:6px;}
+.modal-actions{
+  display:flex;
+  gap:8px;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+.modal-actions a{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12.5px;
+  text-decoration:none;
+  padding:8px 14px;
+  border:1px solid var(--ink);
+  color:var(--ink);
+  border-radius:2px;
+}
+.modal-actions a:hover{background:var(--ink);color:var(--paper);}
+.modal-actions a.primary{background:var(--green);border-color:var(--green);color:var(--paper);}
+.modal-actions a.primary:hover{background:var(--green-soft);}
+
+/* ---------- FOOTER ---------- */
+.foot{
+  padding:30px 0 10px;
+  font-size:12.5px;
+  color:var(--grey);
+}
+
+@media (max-width:640px){
+  .wrap{padding:0 16px 60px;}
+  .hero{padding:36px 0 20px;}
+  .jumpnav{gap:4px 14px;font-size:12.5px;}
+  .flist-row{grid-template-columns:1fr;gap:4px;}
+  thead th{position:static;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+}
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-eyebrow-row">
+      <span class="tag-ku">건국대학교</span>
+      <div class="hero-meta-right">
+        <span class="tag-date">업데이트 2026. 9. 9.</span>
+        <span class="tag-author">제작 캠타김군 · <a href="mailto:coolzet@konkuk.ac.kr">coolzet@konkuk.ac.kr</a></span>
+      </div>
+    </div>
+    <h1 class="hero-title">캠퍼스타운사업단<br>입주기업 디렉토리</h1>
+    <p class="hero-sub">K-이노베이션 스테이션 센터부터 창의관까지, 여섯 개 공간에 자리한 예순일곱 개 팀의 기록.</p>
+    <div class="stat-row" id="statRow"></div>
+  </header>
+
+  <nav class="jumpnav">
+    <a href="#spaces">공간별 현황</a>
+    <a href="#fields">분야별 기업</a>
+    <a href="#office">오피스 구분</a>
+    <a href="#biztype">사업자 구분</a>
+    <a href="#campus">교내창업 여부</a>
+    <a href="#newind">신산업 분야</a>
+    <a href="#timeline">입주일</a>
+    <a href="#directory">전체 디렉토리</a>
+  </nav>
+
+  <section id="spaces" class="section">
+    <h2 class="sec-title"><span class="sec-no">01</span>공간별 현황 &middot; 위치</h2>
+    <p class="sec-desc">여섯 개 입주 공간의 위치와 배정 기업 수, 개별·공유오피스 구성입니다. 지도 마커나 카드를 누르면 아래 디렉토리가 해당 공간으로 좁혀집니다.</p>
+    <div id="spaceMap" class="space-map"></div>
+    <div class="space-grid" id="spaceGrid"></div>
+  </section>
+
+  <section id="fields" class="section">
+    <h2 class="sec-title"><span class="sec-no">02</span>분야별 기업</h2>
+    <p class="sec-desc">사업 분야를 기준으로 나눈 목록입니다. 탭을 눌러 분야를 바꿔보세요.</p>
+    <div class="field-tabs" id="fieldTabs"></div>
+    <div class="field-bars" id="fieldBars"></div>
+    <div class="field-list" id="fieldList"></div>
+  </section>
+
+  <section id="office" class="section">
+    <h2 class="sec-title"><span class="sec-no">03</span>오피스 구분 &mdash; 배정호수 기준</h2>
+    <p class="sec-desc">배정호수가 숫자면 개별오피스, '공유오피스'로 표기되면 공유오피스로 분류했습니다.</p>
+    <div class="office-split" id="officeSplit"></div>
+  </section>
+
+  <section id="biztype" class="section">
+    <h2 class="sec-title"><span class="sec-no">04</span>사업자 구분</h2>
+    <p class="sec-desc">법인사업자·개인사업자·예비창업자 현황입니다.</p>
+    <div class="biztype-split" id="biztypeSplit"></div>
+  </section>
+
+  <section id="campus" class="section">
+    <h2 class="sec-title"><span class="sec-no">05</span>교내 창업 여부 구분</h2>
+    <p class="sec-desc">재학생·동문·교원 창업과, 학교 밖에서 들어온 일반 창업 기업의 비율입니다.</p>
+    <div class="campus-split" id="campusSplit"></div>
+    <div class="campus-ratio" id="campusRatio"></div>
+  </section>
+
+  <section id="newind" class="section">
+    <h2 class="sec-title"><span class="sec-no">06</span>신산업 분야 해당 여부</h2>
+    <p class="sec-desc">신산업 창업 분야로 인정된 기업이 표시한 세부 분야 태그와 건수입니다. 태그를 누르면 디렉토리가 좁혀집니다.</p>
+    <div class="newind-summary" id="newindSummary"></div>
+    <div class="newind-tags" id="newindTags"></div>
+  </section>
+
+  <section id="timeline" class="section">
+    <h2 class="sec-title"><span class="sec-no">07</span>입주일</h2>
+    <p class="sec-desc">2026년 세 차례에 걸쳐 입주가 이뤄졌습니다. 계약 만료일은 모든 기업이 2027. 2. 28.로 동일합니다.</p>
+    <div class="timeline" id="timelineRow"></div>
+  </section>
+
+  <section id="directory" class="section">
+    <h2 class="sec-title"><span class="sec-no">08</span>전체 디렉토리</h2>
+    <p class="sec-desc">기업명을 누르면 연락처가 열립니다. 검색하거나 아래 필터를 조합해 원하는 기업을 찾아보세요.</p>
+
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="기업명 · 대표자 · 사업아이템 검색" />
+      <select id="fSpace"><option value="">공간 전체</option></select>
+      <select id="fField"><option value="">분야 전체</option></select>
+      <select id="fOffice"><option value="">오피스 전체</option></select>
+      <select id="fBiztype"><option value="">사업자 전체</option></select>
+      <select id="fCampus"><option value="">교내창업 전체</option></select>
+      <select id="fMovein"><option value="">입주일 전체</option></select>
+      <button id="resetBtn" type="button">초기화</button>
+    </div>
+
+    <div class="result-count" id="resultCount"></div>
+
+    <div class="table-scroll">
+      <table id="dirTable">
+        <thead>
+          <tr>
+            <th data-key="no">No</th>
+            <th data-key="space">공간</th>
+            <th data-key="room">배정호수</th>
+            <th data-key="name">기업명</th>
+            <th data-key="biztype">사업자</th>
+            <th data-key="field">분야</th>
+            <th data-key="ceo">대표자</th>
+            <th data-key="item">사업 아이템</th>
+            <th data-key="campus_status">교내창업</th>
+            <th data-key="newind_applicable">신산업</th>
+            <th data-key="movein">입주일</th>
+          </tr>
+        </thead>
+        <tbody id="dirBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>건국대학교 캠퍼스타운사업단 입주기업 리스트(2026. 9. 9. 기준) &middot; 총 67개 기업 자료를 바탕으로 정리했습니다.</p>
+  </footer>
+
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-card" id="modalCard">
+    <button class="modal-close" id="modalClose" type="button" aria-label="닫기">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const COMPANIES = [{"no": 1, "space": "K-이노베이션 스테이션 센터", "room": "1호", "office_type": "개별오피스", "name": "(주)더마트릭스", "biztype": "법인사업자", "field": "바이오", "ceo": "김경훈", "phone": ["(대표) 010-9533-3731 / (실무자 - 박보경) 010-2988-8536"], "email": ["ghkim@dermatrix.io"], "item": "AI 기술이 적용된 병원-환자 양방향 피부 데이터 통합 플랫폼", "campus_status": null, "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 2, "space": "K-이노베이션 스테이션 센터", "room": "2호", "office_type": "개별오피스", "name": "코드크레인(유)", "biztype": "법인사업자", "field": "AI", "ceo": "신해용", "phone": ["010-4871-9653"], "email": ["haeyong.shin@codecrain.com", "contact@codecrain.com"], "item": "tlooto", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 3, "space": "K-이노베이션 스테이션 센터", "room": "3호", "office_type": "개별오피스", "name": "(주)위글리컴퍼니", "biztype": "법인사업자", "field": "푸드", "ceo": "이건우 서예명", "phone": ["010-3610-8618"], "email": ["gun3405@naver.com"], "item": "위글리 파스타", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 4, "space": "K-이노베이션 스테이션 센터", "room": "4호", "office_type": "개별오피스", "name": "(주)인피닉션", "biztype": "법인사업자", "field": "AI", "ceo": "박소희", "phone": ["010-3323-7216"], "email": ["sohee.park0602@gmail.com", "ceo@infiniction.com"], "item": "LLM 기반 K-웹소설 자동 번역·검수·해외 유통 통합 솔루션", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 5, "space": "K-이노베이션 스테이션 센터", "room": "5호", "office_type": "개별오피스", "name": "(주)도자인", "biztype": "법인사업자", "field": "AI", "ceo": "김도희", "phone": ["010-3331-8435"], "email": ["doheegim@dosign.org"], "item": "기업용 AI 디자인 에이전트, 널즈", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑤서비스플랫폼"], "newind_applicable": true}, {"no": 6, "space": "K-이노베이션 스테이션 센터", "room": "6호", "office_type": "개별오피스", "name": "(주)레드윗", "biztype": "법인사업자", "field": "AI", "ceo": "김지원", "phone": ["(대표) 010-8238-2531 / (실무자 - 이준성) 010-4884-5669"], "email": ["tony@redwit.io"], "item": "전자연구노트 구노(클라우드, 구축형) / 스트롱박스", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["④블록체인"], "newind_applicable": true}, {"no": 7, "space": "K-이노베이션 스테이션 센터", "room": "7호", "office_type": "개별오피스", "name": "(주)리라운더", "biztype": "법인사업자", "field": "에코", "ceo": "홍유리", "phone": ["010-9954-2416"], "email": ["admin@be-rounder.com"], "item": "자원순환 경매 서비스 플랫폼", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑤서비스플랫폼", "㉓자원순환 및 에너지 재활용"], "newind_applicable": true}, {"no": 8, "space": "K-이노베이션 스테이션 센터", "room": "8호", "office_type": "개별오피스", "name": "(주)펫투데이", "biztype": "법인사업자", "field": "바이오(펫)", "ceo": "이성호", "phone": ["010-4041-9105"], "email": ["petoday.official@petoday.co.kr"], "item": "반려동물 액상형 사료 제조기", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 9, "space": "K-이노베이션 스테이션 센터", "room": "9호", "office_type": "개별오피스", "name": "윈윈스포츠컴퍼니", "biztype": "개인사업자", "field": "바이오", "ceo": "정종선", "phone": ["010-2251-2680"], "email": ["weenwin@naver.com"], "item": "‘윈코치(WeenCoach)’", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑤서비스플랫폼"], "newind_applicable": true}, {"no": 10, "space": "K-이노베이션 스테이션 센터", "room": "10호", "office_type": "개별오피스", "name": "제넥트", "biztype": "개인사업자", "field": "AI", "ceo": "이동근", "phone": ["010-2969-0158"], "email": ["pydk42@gmail.com"], "item": "신약개발 AI 솔루션", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 11, "space": "K-이노베이션 스테이션 센터", "room": "공유오피스", "office_type": "공유오피스", "name": "(주)노이랩", "biztype": "법인사업자", "field": "바이오", "ceo": "황병훈", "phone": ["010-9876-4329"], "email": ["ceo@noilab.kr"], "item": "AI 헬스케어", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "②빅데이터"], "newind_applicable": true}, {"no": 12, "space": "K-이노베이션 스테이션 센터", "room": "공유오피스", "office_type": "공유오피스", "name": "(주)유오바이오랩스", "biztype": "법인사업자", "field": "바이오", "ceo": "홍영일", "phone": ["(대표) 010-2010-7639 / (이사) 010-2231-4743"], "email": ["honest7639@naver.com"], "item": "AI 기반 능동형 바이오 샘플 안전 관리 및 세포 보관 자동화 플랫폼", "campus_status": null, "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 13, "space": "K-이노베이션 스테이션 센터", "room": "공유오피스", "office_type": "공유오피스", "name": "(주)에스피에이디", "biztype": "법인사업자", "field": "AI", "ceo": "김은극", "phone": ["010-8754-2099"], "email": ["manager@thespad.co.kr"], "item": "AI 모델링 기반 데이팅 앱 서비스", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑤서비스플랫폼"], "newind_applicable": true}, {"no": 14, "space": "K-이노베이션 스테이션 센터", "room": "공유오피스", "office_type": "공유오피스", "name": "(주)피크업", "biztype": "법인사업자", "field": "AI", "ceo": "이정우", "phone": ["010-8779-6594"], "email": ["peakup@peakup.ai"], "item": "PEAK UP", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 15, "space": "K-이노베이션 스테이션 센터", "room": "공유오피스", "office_type": "공유오피스", "name": "스타팅파트너스(주)", "biztype": "법인사업자", "field": "AI", "ceo": "김홍찬", "phone": ["010-4454-3768"], "email": ["khc@momit.co.kr"], "item": "AI 기반 헤드헌팅 솔루션 '스타팅'", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 16, "space": "K-이노베이션 스테이션 센터", "room": "공유오피스", "office_type": "공유오피스", "name": "라비음", "biztype": "개인사업자", "field": "푸드", "ceo": "유보람", "phone": ["010-4743-8774"], "email": ["lavium@lavium.kr", "rambogood@naver.com"], "item": "시니어를 위해 기호, 편의, 영양을 개선한 쌀 영양균형미음 솔루션", "campus_status": null, "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 17, "space": "K-이노베이션 스테이션 센터", "room": "공유오피스", "office_type": "공유오피스", "name": "에픽카(주)", "biztype": "법인사업자", "field": "AI", "ceo": "박상균", "phone": ["(대표) 010-8958-8601 / (실무자 - 임나성) 010-9588-6464"], "email": ["jslee@eficar.co.kr", "nslim@eficar.co.kr"], "item": "AI 기반 차량 이미지 분석과 견적 데이터를 융합하여, 대체부품 적 용 가능성을 진단하고 견적을 자 동 산출하는 통합 솔루션", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 18, "space": "K-이노베이션 스테이션 센터", "room": "공유오피스", "office_type": "공유오피스", "name": "로봇컴(주)", "biztype": "법인사업자", "field": null, "ceo": "김재훈", "phone": ["010-9460-1439"], "email": ["jay@robotcom.ai"], "item": "병·의원 AI Voice 솔루션 'D voice'", "campus_status": "재학생", "movein": "26. 8. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 19, "space": "스타시티 스타트업 존", "room": "1호", "office_type": "개별오피스", "name": "BURDEN", "biztype": "개인사업자", "field": "에코", "ceo": "김주영", "phone": ["010-9014-3532"], "email": ["jykjm353@naver.com"], "item": "친환경 굿즈 제작", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["㉓자원순환 및 에너지 재활용"], "newind_applicable": true}, {"no": 20, "space": "스타시티 스타트업 존", "room": "2호", "office_type": "개별오피스", "name": "두이(DOOY)", "biztype": "개인사업자", "field": "푸드", "ceo": "강윤호", "phone": ["010-5967-2530"], "email": ["yuno@dybs.co.kr"], "item": "지역 특산물을 활용한 아침대용식 '컬러두유'", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 21, "space": "스타시티 스타트업 존", "room": "3호", "office_type": "개별오피스", "name": "푸로운", "biztype": "개인사업자", "field": "푸드", "ceo": "박건아", "phone": ["010-2971-0428"], "email": ["flw@fooroun.com"], "item": "나노기술기반 혈당관리 베이커리, 스프레드", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 22, "space": "스타시티 스타트업 존", "room": "4호", "office_type": "개별오피스", "name": "(주)프레쉬아워", "biztype": "법인사업자", "field": "바이오(펫)", "ceo": "임경호", "phone": ["(본사) 043-855-4995 / (대표) 010-9466-1984 / (실무자 - 전성은) 010-3382-6417"], "email": ["kyeonghoim@gmail.com", "mrzone95@freshour.co.kr"], "item": "반려동물 맞춤형 펫푸드 개발 및 AI기반 질환 진단 알고리즘 개발(펫 PHR 빅데이터 + 미생물NGS 데이터)", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 23, "space": "스타시티 스타트업 존", "room": "5호", "office_type": "개별오피스", "name": "(주)커픽", "biztype": "법인사업자", "field": "AI", "ceo": "추민우", "phone": ["010-7311-2362"], "email": ["cmwoo7@naver.com"], "item": "커피 로스터리 생산성을 획기적으로 높이는 커피 결점두 선별 AI 솔루션", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 24, "space": "스타시티 스타트업 존", "room": "6호", "office_type": "개별오피스", "name": "디지로그(주)", "biztype": "법인사업자", "field": null, "ceo": "서현권", "phone": ["(대표) 010-4102-5317 / (실무자-박다현) 010-4873-0423"], "email": ["parkda0423@digilog.io"], "item": "생성형 정원ﾷ식재 설계 플랫폼 Sprout-AI로 매출 을 견인하는 K-애그리테크. 더불어 미래 농업의 Physical-AI 전환에 대비한 농업용 로봇 비전 AI ChamNet을 중장기 선행 연구개발로 병행", "campus_status": "동문(세종대)", "movein": "26. 8. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 25, "space": "스타시티 스타트업 존", "room": "7호", "office_type": "개별오피스", "name": "브루어스", "biztype": "개인사업자", "field": "푸드", "ceo": "이상준", "phone": ["010-5633-0674"], "email": ["forest171004@naver.com"], "item": "논알콜 막걸리 분말", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑭기능성 식품"], "newind_applicable": true}, {"no": 26, "space": "스타시티 스타트업 존", "room": "8호", "office_type": "개별오피스", "name": "(주)페이퍼팝", "biztype": "법인사업자", "field": "에코", "ceo": "박대희", "phone": ["010-8945-4068"], "email": ["pp@paperpop.co.kr"], "item": "종이 가구 및 생활용품, 전시행사 종이 구조물", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["㉓자원순환 및 에너지 재활용"], "newind_applicable": true}, {"no": 27, "space": "스타시티 스타트업 존", "room": "9호", "office_type": "개별오피스", "name": "(주)동네방네", "biztype": "법인사업자", "field": "푸드", "ceo": "김진", "phone": ["010-5394-7142"], "email": ["johnny1205@naver.com"], "item": "청주 로컬 식문화활용 건강기능성 향상 HMR 가정간편식", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑭기능성 식품"], "newind_applicable": true}, {"no": 28, "space": "스타시티 스타트업 존", "room": "10호", "office_type": "개별오피스", "name": "(주)이이키", "biztype": "법인사업자", "field": "푸드", "ceo": "주미희", "phone": ["010-7979-7189"], "email": ["algml0121@hanmail.net"], "item": "당근잎차", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑭기능성 식품"], "newind_applicable": true}, {"no": 29, "space": "K-바이오 이노베이션 허브", "room": "1호", "office_type": "개별오피스", "name": "(주)타르트에이아이", "biztype": "법인사업자", "field": "AI", "ceo": "박아윤", "phone": ["(실무자) 070-8844-0711 / (대표) 010-5182-0788"], "email": ["biz@prap.kr"], "item": "AI 기반 조각투자(STO) 분석 및 맞춤형 정보 제공 플랫폼", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 30, "space": "K-바이오 이노베이션 허브", "room": "2호", "office_type": "개별오피스", "name": "(주)어썸베어", "biztype": "개인사업자", "field": "바이오", "ceo": "이청훈, 조경수", "phone": ["010-6557-4158"], "email": ["chhn@asumbear.kr"], "item": "AI 메이크업 큐레이션 기반 고객 중심 화장품 개발 브랜드 BLUP", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 31, "space": "K-바이오 이노베이션 허브", "room": "3호", "office_type": "개별오피스", "name": "(주)피앤씨브라더스", "biztype": "법인사업자", "field": "바이오", "ceo": "박성우", "phone": ["010-9278-2232"], "email": ["pnc@htracker.co.kr"], "item": "로컬 병의원을 위한 전문 경영인(B2B SaaS)", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "②빅데이터", "⑤서비스플랫폼"], "newind_applicable": true}, {"no": 32, "space": "K-바이오 이노베이션 허브", "room": "4호", "office_type": "개별오피스", "name": "뻔뻔한스포츠(주)", "biztype": "법인사업자", "field": "바이오", "ceo": "최유진", "phone": ["010-5558-2739"], "email": ["eugene@badmintonfriends.co.kr"], "item": "배드민턴 올인원 플랫폼, 배프 & AI 스포츠 영상분석 시스템, 스포비전", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 33, "space": "K-바이오 이노베이션 허브", "room": "5호", "office_type": "개별오피스", "name": "(주)에이배리스터컴퍼니", "biztype": "법인사업자", "field": "바이오", "ceo": "정현종", "phone": ["(대표) 010-8433-4339 / (실무자 - 유재호) 010-4120-7767"], "email": ["hjchung@konkuk.ac.kr", "abarristor.com@gmail.com", "jaeho.yu.767@gmail.com"], "item": "신물질(그래핀)기반 센서 플랫폼", "campus_status": "교원", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑫바이오"], "newind_applicable": true}, {"no": 34, "space": "K-바이오 이노베이션 허브", "room": "6호", "office_type": "개별오피스", "name": "(주)클레빌", "biztype": "법인사업자", "field": null, "ceo": "최상천", "phone": ["(대표) 010-9129-9084 / (실무자 - 박우진) 010-9350-0297"], "email": ["wj.park@clabil.com"], "item": "Transform Steering 기반 Edge-Cloud AI 기술이 적용된 자율 작업이 가능한 모듈형 자율주행 로봇 플랫폼", "campus_status": null, "movein": "26. 8. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 35, "space": "K-바이오 이노베이션 허브", "room": "7호", "office_type": "개별오피스", "name": "밀리사이트테크놀러지스(주)", "biztype": "법인사업자", "field": "바이오", "ceo": "양종렬", "phone": ["(대표) 010-8851-0928 / (실무자 - 박종태 수석연구원) 010-4228-9269"], "email": ["jryang@mmwsight.com", "jtpark@mmwsight.com"], "item": "전자기파 응용 비접촉 센 시스템", "campus_status": "교원", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑧스마트제조", "⑨시스템반도체"], "newind_applicable": true}, {"no": 36, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 1호", "office_type": "공유오피스", "name": "(주)이삼사일", "biztype": "법인사업자", "field": "바이오", "ceo": "강소라", "phone": ["010-6309-8115"], "email": ["sora@celerylunch.com"], "item": "디지털 기반 비만유형별 행동치료 솔루션", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑬의료기기"], "newind_applicable": true}, {"no": 37, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 1호", "office_type": "공유오피스", "name": "(주)그루누이", "biztype": "법인사업자", "field": null, "ceo": "안영빈", "phone": ["010-5744-2910"], "email": ["toby@groonui.com"], "item": "30시간의 여행 고민을 3분으로, 예산 기반 초개인화 AI 큐레이션", "campus_status": "재학생", "movein": "26. 8. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 38, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 1호", "office_type": "공유오피스", "name": "(주)에이트린", "biztype": "법인사업자", "field": "에코", "ceo": "정우재", "phone": ["010-8082-3933"], "email": ["wz@8reen.com"], "item": "친환경 우산을 활용한 서비스 AI", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 39, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 1호", "office_type": "공유오피스", "name": "(주)튼튼한거북이", "biztype": "법인사업자", "field": "바이오", "ceo": "최진석", "phone": ["070-8065-7080"], "email": ["teunteun.turtle@gmail.com"], "item": "맞춤형 노인 단체 운동 프로그램", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 40, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 1호", "office_type": "공유오피스", "name": "날리자쿠", "biztype": "개인사업자", "field": null, "ceo": "이민상", "phone": ["010-5029-6452"], "email": ["proteolee2@gmail.com"], "item": "Flipsson AI - 교강사의 업무자동화를 위한 AI 수업 설계 플랫폼", "campus_status": "동문", "movein": "26. 8. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 41, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 1호", "office_type": "공유오피스", "name": "(주)비범솔루션", "biztype": "법인사업자", "field": "에코", "ceo": "이재우", "phone": ["010-2295-6703"], "email": ["yongchul1967@naver.com"], "item": "안전한 도심항공교통 D2O(Design to Operation) 디지털 트윈 플랫폼", "campus_status": "교원", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑮드론ㆍ개인이동수단"], "newind_applicable": true}, {"no": 42, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 2호", "office_type": "공유오피스", "name": "주식회사 새니닥", "biztype": "법인사업자", "field": "바이오", "ceo": "권정근", "phone": ["010-2352-6094"], "email": ["info@sanidoc.kr"], "item": "피부과 전문의가 개발한 모공각화증 특화 고효능 바디케어 솔루션", "campus_status": null, "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 43, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 2호", "office_type": "공유오피스", "name": "네이처비아", "biztype": "개인사업자", "field": "에코", "ceo": "박지은", "phone": ["010-2567-2822"], "email": ["fmfu51@naver.com"], "item": "스테비아 건식발효 복합균주 기반 친환경 농업용 바이오스티뮬런트", "campus_status": null, "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 44, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 3호", "office_type": "공유오피스", "name": "넷(NET)", "biztype": "개인사업자", "field": "푸드", "ceo": "김예성", "phone": ["010-3005-5107"], "email": ["K02141@naver.com"], "item": "국내 농산물을 활용한 신개념 발포정 고체형 음료 개발", "campus_status": null, "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 45, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 3호", "office_type": "공유오피스", "name": "(주)아이로", "biztype": "법인사업자", "field": "바이오", "ceo": "류영현", "phone": ["010-4030-3693"], "email": ["fbdudgus3693@gmail.com"], "item": "치료일지 데이터화를 통한 발달장애아동 맞춤 발달 재활 솔루션", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "②빅데이터"], "newind_applicable": true}, {"no": 46, "space": "K-바이오 이노베이션 허브", "room": "공유오피스 3호", "office_type": "공유오피스", "name": "에피옴(주)", "biztype": "법인사업자", "field": "바이오", "ceo": "박찬혁", "phone": ["010-4733-3751"], "email": ["chpark@epiome.io", "chpark0729@gmail.com"], "item": "유전체 데이터 분석", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑫바이오"], "newind_applicable": true}, {"no": 47, "space": "KU스타트업존", "room": "1호", "office_type": "개별오피스", "name": "(주)쭉", "biztype": "법인사업자", "field": "AI", "ceo": "김효재 박현지(이사)", "phone": ["010-4918-3442"], "email": ["jae@brand-boost.asia", "hyeonji.park@brand-boost.asia"], "item": "AI기반 제조/제작 관리 솔루션", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 48, "space": "KU스타트업존", "room": "2호", "office_type": "개별오피스", "name": "드론메이커스(주)", "biztype": "법인사업자", "field": "AI", "ceo": "전진표", "phone": ["010-2747-5162"], "email": ["sonhi408@konkuk.ac.kr"], "item": "생성형 AI 기반 산업용 드론 운용 시스템", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑮드론ㆍ개인이동수단"], "newind_applicable": true}, {"no": 49, "space": "KU스타트업존", "room": "3호", "office_type": "개별오피스", "name": "르보네어", "biztype": "개인사업자", "field": "바이오", "ceo": "이연지", "phone": ["010-3925-2860"], "email": ["yeonji@lvoneir.kr"], "item": "2024 남성 외모 자기관리를 위한 스타일링 솔루션", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑤서비스플랫폼"], "newind_applicable": true}, {"no": 50, "space": "KU스타트업존", "room": "4호", "office_type": "개별오피스", "name": "(주)페스티컴퍼니", "biztype": "개인사업자", "field": "에코", "ceo": "채혜송", "phone": ["010-9300-6779"], "email": ["chss0412@naver.com"], "item": "축제 모객·운영·데이터를 통합 지원하는 행사 전용 DX SaaS 플랫폼", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑤서비스플랫폼"], "newind_applicable": true}, {"no": 51, "space": "KU스타트업존", "room": "5호", "office_type": "개별오피스", "name": "(주)비바엘모멘토", "biztype": "법인사업자", "field": "AI", "ceo": "정유성", "phone": ["02-6925-0990 / 010-5937-9949"], "email": ["iplayagain9@classive.co.kr"], "item": "스마트공장화 AI기반 스마트서비스", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 52, "space": "KU스타트업존", "room": "6호", "office_type": "개별오피스", "name": "(주)뉴런즈", "biztype": "법인사업자", "field": "에코", "ceo": "김영현", "phone": ["(대표) 010-9731-0307 / (실무자 - 송선호 팀장) 010-5880-4448"], "email": ["young.kim@nwrn.net", "thdtjsghs@nwrn.net", "newrun0307@naver.com"], "item": "PerfecTour", "campus_status": "동문", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 53, "space": "KU스타트업존", "room": "공유오피스", "office_type": "공유오피스", "name": "커피바라", "biztype": "개인사업자", "field": "에코", "ceo": "김경우", "phone": ["010-5417-0537"], "email": ["casekim41@gmail.com"], "item": "AI 기반 분리수거 자동화 기기", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑱스마트시티", "㉓자원순환 및 에너지 재활용"], "newind_applicable": true}, {"no": 54, "space": "KU스타트업존", "room": "공유오피스", "office_type": "공유오피스", "name": "(주)코지메이커스", "biztype": "법인사업자", "field": "바이오", "ceo": "최민호", "phone": ["010-2635-0303"], "email": ["ceo@cozymakers.ai"], "item": "셀프케어 솔루션 그린메이트", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 55, "space": "KU스타트업존", "room": "공유오피스", "office_type": "공유오피스", "name": "빌드톡(주)", "biztype": "법인사업자", "field": "AI", "ceo": "이동섭", "phone": ["010-4702-2864"], "email": ["buildtalkk@gmail.com"], "item": "법률 검토 자동화 솔루션", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능", "⑤서비스플랫폼"], "newind_applicable": true}, {"no": 56, "space": "KU스타트업존", "room": "공유오피스", "office_type": "공유오피스", "name": "벳츄원(VetU1)", "biztype": "개인사업자", "field": "바이오(펫)", "ceo": "인준환", "phone": ["010-9476-0758"], "email": ["in6j@konkuk.ac.kr"], "item": "Vet-sync : 수의의료진 워크플로우", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑤서비스플랫폼"], "newind_applicable": true}, {"no": 57, "space": "KU스타트업존", "room": "공유오피스", "office_type": "공유오피스", "name": "(주)택스티넘", "biztype": "법인사업자", "field": "AI", "ceo": "이경구", "phone": ["010-3155-1263"], "email": ["taxtinum@kbtax1.by-works.com"], "item": "AI SW 환급나라, 택스 브릿지", "campus_status": null, "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 58, "space": "KU스타트업존", "room": "공유오피스", "office_type": "공유오피스", "name": "(주)에듀포인터", "biztype": "법인사업자", "field": "AI", "ceo": "오영웅", "phone": ["010-8957-7249"], "email": ["hero010725@gmail.com"], "item": "학생의 학습 상태를 정량화한 초개인화 수학 학습 플랫폼", "campus_status": "재학생", "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 59, "space": "KU청년창업스튜디오", "room": "1호", "office_type": "개별오피스", "name": "온마카세", "biztype": "개인사업자", "field": "바이오", "ceo": "노민, 권영찬", "phone": ["010-5728-3720"], "email": ["yuri8097@naver.com"], "item": "임상 기반 온천 효능 입욕제", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑫바이오"], "newind_applicable": true}, {"no": 60, "space": "KU청년창업스튜디오", "room": "2호", "office_type": "개별오피스", "name": "이지스리프트(AegisLift)", "biztype": "개인사업자", "field": "에코", "ceo": "임승현", "phone": ["010-8897-6576"], "email": ["cap0126@konkuk.ac.kr"], "item": "AI기반 산림 감염목 예찰 VTOL 솔루션", "campus_status": "재학생", "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["⑮드론ㆍ개인이동수단"], "newind_applicable": true}, {"no": 61, "space": "KU청년창업스튜디오", "room": "3호", "office_type": "개별오피스", "name": "REBLOCK", "biztype": "개인사업자", "field": null, "ceo": "김민찬", "phone": ["010-7577-8867"], "email": ["km020408@naver.com"], "item": "REBLOCK은 세라믹 폐기물을 활용한 자원순환형 투수 보도블록 제조업체", "campus_status": "재학생", "movein": "26. 8. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 62, "space": "창의관", "room": "공유오피스", "office_type": "공유오피스", "name": "옐로우삭스", "biztype": "개인사업자", "field": "AI", "ceo": "김승학", "phone": ["010-2280-4539"], "email": ["sohappy1288@naver.com"], "item": "인쇄 디자인 및 제조 공정을 간편화 하는 AI 제조 플랫폼", "campus_status": "재학생", "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 63, "space": "창의관", "room": "공유오피스", "office_type": "공유오피스", "name": "하트플래닛컴퍼니(주)", "biztype": "법인사업자", "field": "바이오", "ceo": "이요안나", "phone": ["010-3810-1580"], "email": ["yoanna@heartplanetcompany.com"], "item": "운동 자세 균형을 지키는 센서 기반 스마트 웨어러블 양말", "campus_status": null, "movein": "26. 1. 1.", "expire": "27. 2. 28.", "newind_tags": ["①인공지능"], "newind_applicable": true}, {"no": 64, "space": "창의관", "room": "공유오피스", "office_type": "공유오피스", "name": "주식회사 디트리움", "biztype": "법인사업자", "field": "AI", "ceo": "정회룡", "phone": ["010-3167-4698"], "email": ["ceo@ditriuum.com"], "item": "AI 기반 디지털트윈 3D 모델 생성기", "campus_status": "교원", "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 65, "space": "창의관", "room": "공유오피스", "office_type": "공유오피스", "name": "(주)쿼크온", "biztype": "법인사업자", "field": "펫", "ceo": "유경민", "phone": ["010-4113-7799"], "email": ["ykm990625@gmail.com"], "item": "동물 의료의 표준화를 이끄는 AI 기반 수의사 진료 보조 솔루션", "campus_status": null, "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 66, "space": "창의관", "room": "공유오피스", "office_type": "공유오피스", "name": "핀고", "biztype": "예비창업자", "field": "AI", "ceo": "황예진", "phone": ["010-3508-2455"], "email": ["marron04@naver.com"], "item": "17년 설계 노하우 7-Factor 로직을 활용한 보험 포토폴리오", "campus_status": "재학생", "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}, {"no": 67, "space": "창의관", "room": "공유오피스", "office_type": "공유오피스", "name": "주식회사 끝까지함께", "biztype": "법인사업자", "field": "펫", "ceo": "윤생수", "phone": ["010-6213-1708"], "email": ["kipfri@kipfri.com"], "item": "DCL 기반 양뱡형 교차독성 안전 검증 AI 플랫폼", "campus_status": "동문", "movein": "26. 4. 1.", "expire": "27. 2. 28.", "newind_tags": [], "newind_applicable": false}];
+const SPACES = [{"name": "K-이노베이션 스테이션 센터", "address": "광진구 능동로 81 더라움펜트하우스 102동(B동)", "lat": 37.5387765, "lng": 127.069809}, {"name": "스타시티 스타트업 존", "address": "광진구 아차산로 272 스타시티몰 시티존 B1층", "lat": 37.5385849, "lng": 127.0729659}, {"name": "K-바이오 이노베이션 허브", "address": "광진구 능동로 120 건국대학교 KU기술혁신관 6층", "lat": 37.5397343, "lng": 127.0772939}, {"name": "KU스타트업존", "address": "광진구 능동로 120 건국대학교 중장비실험동 3층", "lat": 37.5423451, "lng": 127.0798492}, {"name": "KU청년창업스튜디오", "address": "광진구 광나루로26길 20, 2층", "lat": 37.5453627, "lng": 127.076945}, {"name": "창의관", "address": "광진구 능동로 120 건국대학교 창의관 3층", "lat": 37.5412187, "lng": 127.0816697}];
+// ---------- helpers ----------
+const FIELD_COLORS = {
+  'AI': '#33517A',
+  '바이오': '#2F5233',
+  '바이오(펫)': '#3F8A7A',
+  '푸드': '#A67C1E',
+  '에코': '#6B6B23',
+  '펫': '#7A3B44',
+  '미분류': '#8A8371'
+};
+function fieldKey(f){ return f || '미분류'; }
+function fieldColor(f){ return FIELD_COLORS[fieldKey(f)] || '#8A8371'; }
+function esc(s){
+  return (s===null||s===undefined) ? '' : String(s)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+}
+
+const state = { space:'', field:'', office:'', biztype:'', campus:'', movein:'', newind:'', search:'' };
+
+// ---------- derived aggregates ----------
+const total = COMPANIES.length;
+const spaceOrder = SPACES.map(s=>s.name);
+
+const fieldOrder = ['AI','바이오','푸드','에코','바이오(펫)','펫','미분류'];
+const officeTotal = {
+  '개별오피스': COMPANIES.filter(c=>c.office_type==='개별오피스').length,
+  '공유오피스': COMPANIES.filter(c=>c.office_type==='공유오피스').length,
+};
+const biztypeOrder = ['법인사업자','개인사업자','예비창업자'];
+const newindYes = COMPANIES.filter(c=>c.newind_applicable).length;
+const moveinOrder = ['26. 1. 1.','26. 4. 1.','26. 8. 1.'];
+
+const campusFounderCount = COMPANIES.filter(c=>c.campus_status).length; // 재학생+동문+교원 등
+
+// tag counts
+const tagCounts = {};
+COMPANIES.forEach(c=> (c.newind_tags||[]).forEach(t=>{ tagCounts[t]=(tagCounts[t]||0)+1; }));
+const tagList = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]);
+
+// ---------- HERO STATS ----------
+document.getElementById('statRow').innerHTML = `
+  <div class="stat-item"><span class="stat-num">${total}</span><span class="stat-label">입주 기업</span></div>
+  <div class="stat-item"><span class="stat-num">${spaceOrder.length}</span><span class="stat-label">입주 공간</span></div>
+  <div class="stat-item"><span class="stat-num">${officeTotal['개별오피스']}</span><span class="stat-label">개별오피스</span></div>
+  <div class="stat-item"><span class="stat-num">${officeTotal['공유오피스']}</span><span class="stat-label">공유오피스</span></div>
+  <div class="stat-item"><span class="stat-num">${newindYes}</span><span class="stat-label">신산업 분야 인정</span></div>
+`;
+
+// ---------- MAP ----------
+function initMap(){
+  const el = document.getElementById('spaceMap');
+  if(!el || typeof L === 'undefined') return;
+  const map = L.map(el, { scrollWheelZoom:false }).setView([37.5410, 127.0770], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19,
+    attribution:'&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const maxCount = Math.max(...SPACES.map(s=>COMPANIES.filter(c=>c.space===s.name).length));
+
+  SPACES.forEach(sp=>{
+    const n = COMPANIES.filter(c=>c.space===sp.name).length;
+    const radius = 10 + (n / maxCount) * 16;
+    const marker = L.circleMarker([sp.lat, sp.lng], {
+      radius: radius,
+      color: '#2F5233',
+      weight: 2,
+      fillColor: '#A8511F',
+      fillOpacity: 0.55
+    }).addTo(map);
+    marker.bindPopup(`
+      <div class="map-pop-title">${esc(sp.name)}</div>
+      <div class="map-pop-addr">${esc(sp.address)}</div>
+      <div class="map-pop-count">입주 ${n}개 기업</div>
+    `);
+    marker.on('click', ()=>{
+      state.space = state.space===sp.name ? '' : sp.name;
+      syncSelectsFromState();
+      renderSpaceGrid();
+      renderTable();
+    });
+  });
+}
+
+// ---------- SPACE CARDS ----------
+function renderSpaceGrid(){
+  const grid = document.getElementById('spaceGrid');
+  grid.innerHTML = spaceOrder.map(sp=>{
+    const items = COMPANIES.filter(c=>c.space===sp);
+    const indiv = items.filter(c=>c.office_type==='개별오피스').length;
+    const shared = items.filter(c=>c.office_type==='공유오피스').length;
+    const active = state.space===sp ? 'is-active' : '';
+    const info = SPACES.find(s=>s.name===sp);
+    return `<div class="space-card ${active}" data-space="${esc(sp)}">
+      <span class="space-name">${esc(sp)}</span>
+      <span class="space-count">${items.length}<span class="space-unit">개 기업</span></span>
+      <div class="space-sub">개별 ${indiv} · 공유 ${shared}</div>
+      <div class="space-addr">${esc(info ? info.address : '')}</div>
+    </div>`;
+  }).join('');
+  grid.querySelectorAll('.space-card').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const v = el.getAttribute('data-space');
+      state.space = state.space===v ? '' : v;
+      syncSelectsFromState();
+      renderAll();
+      document.getElementById('directory').scrollIntoView({behavior:'smooth'});
+    });
+  });
+}
+
+// ---------- FIELD TABS + BARS + LIST ----------
+function renderFieldTabs(){
+  const wrap = document.getElementById('fieldTabs');
+  const tabs = ['전체', ...fieldOrder];
+  wrap.innerHTML = tabs.map(f=>{
+    const val = f==='전체' ? '' : f;
+    const active = state.field===val ? 'is-active' : '';
+    const n = f==='전체' ? total : COMPANIES.filter(c=>fieldKey(c.field)===f).length;
+    return `<div class="ftab ${active}" data-field="${esc(val)}">${esc(f)} <span style="opacity:.6">${n}</span></div>`;
+  }).join('');
+  wrap.querySelectorAll('.ftab').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      state.field = el.getAttribute('data-field');
+      renderFieldTabs();
+      renderFieldList();
+      syncSelectsFromState();
+      renderTable();
+    });
+  });
+}
+
+function renderFieldBars(){
+  const wrap = document.getElementById('fieldBars');
+  const max = Math.max(...fieldOrder.map(f=>COMPANIES.filter(c=>fieldKey(c.field)===f).length));
+  wrap.innerHTML = fieldOrder.map(f=>{
+    const n = COMPANIES.filter(c=>fieldKey(c.field)===f).length;
+    const pct = max ? Math.round((n/max)*100) : 0;
+    const share = total ? ((n/total)*100).toFixed(1) : '0.0';
+    return `<div class="fbar-row">
+      <div class="fbar-label">${esc(f)}</div>
+      <div class="fbar-track"><div class="fbar-fill" style="width:${pct}%;background:${fieldColor(f)}"></div></div>
+      <div class="fbar-num">${n}<span class="fbar-pct">(${share}%)</span></div>
+    </div>`;
+  }).join('');
+}
+
+function renderFieldList(){
+  const wrap = document.getElementById('fieldList');
+  const list = state.field ? COMPANIES.filter(c=>fieldKey(c.field)===state.field) : COMPANIES;
+  const shown = list.slice(0, 10);
+  wrap.innerHTML = shown.map(c=>`
+    <div class="flist-row">
+      <div class="flist-space">${esc(c.space)} · ${esc(c.room)}</div>
+      <div><button type="button" class="flist-name-btn" data-no="${c.no}">${esc(c.name)}</button><br><span class="flist-ceo">${esc(c.ceo)}</span></div>
+      <div class="flist-item">${esc(c.item)}</div>
+    </div>
+  `).join('') + (list.length>10 ? `<div class="flist-row"><div></div><div class="flist-ceo">외 ${list.length-10}개 기업은 아래 전체 디렉토리에서 확인할 수 있습니다.</div><div></div></div>` : '');
+  wrap.querySelectorAll('.flist-name-btn').forEach(el=>{
+    el.addEventListener('click', ()=> openModal(Number(el.getAttribute('data-no'))));
+  });
+}
+
+// ---------- OFFICE SPLIT ----------
+function renderOfficeSplit(){
+  const wrap = document.getElementById('officeSplit');
+  const items = [
+    {key:'개별오피스', label:'개별오피스 · 고유 호실 배정', n:officeTotal['개별오피스']},
+    {key:'공유오피스', label:'공유오피스 · 여러 팀이 함께 사용', n:officeTotal['공유오피스']},
+  ];
+  wrap.innerHTML = items.map(it=>{
+    const active = state.office===it.key ? 'is-active':'';
+    const bySpace = spaceOrder.map(sp=>{
+      const n = COMPANIES.filter(c=>c.space===sp && c.office_type===it.key).length;
+      return n ? `${sp.replace(/스타트업|스테이션|이노베이션|허브|스튜디오/g,'').trim() || sp} ${n}` : null;
+    }).filter(Boolean).join(' · ');
+    return `<div class="office-block ${active}" data-office="${it.key}">
+      <span class="office-num">${it.n}</span><span class="office-label"> ${it.label}</span>
+      <div class="office-detail">${bySpace}</div>
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('.office-block').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const v = el.getAttribute('data-office');
+      state.office = state.office===v ? '' : v;
+      renderOfficeSplit();
+      syncSelectsFromState();
+      renderTable();
+    });
+  });
+}
+
+// ---------- BIZTYPE SPLIT ----------
+function renderBiztypeSplit(){
+  const wrap = document.getElementById('biztypeSplit');
+  wrap.innerHTML = biztypeOrder.map(bt=>{
+    const n = COMPANIES.filter(c=>c.biztype===bt).length;
+    const active = state.biztype===bt ? 'is-active':'';
+    const share = total ? ((n/total)*100).toFixed(1) : '0.0';
+    return `<div class="biz-block ${active}" data-biztype="${esc(bt)}">
+      <span class="biz-num">${n}</span>
+      <div class="biz-label">${esc(bt)} · ${share}%</div>
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('.biz-block').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const v = el.getAttribute('data-biztype');
+      const wasActive = el.classList.contains('is-active');
+      state.biztype = wasActive ? '' : v;
+      renderBiztypeSplit();
+      syncSelectsFromState();
+      renderTable();
+    });
+  });
+}
+
+// ---------- CAMPUS SPLIT ----------
+function renderCampusSplit(){
+  const wrap = document.getElementById('campusSplit');
+  const groups = [
+    {key:'재학생', label:'재학생 창업'},
+    {key:'동문', label:'동문 창업', match:(c)=>c.campus_status==='동문'||c.campus_status==='동문(세종대)'},
+    {key:'교원', label:'교원 창업'},
+    {key:'__other__', label:'교내창업 외', match:(c)=>!c.campus_status},
+  ];
+  wrap.innerHTML = groups.map(g=>{
+    const n = g.match ? COMPANIES.filter(g.match).length : COMPANIES.filter(c=>c.campus_status===g.key).length;
+    const active = state.campus===g.key ? 'is-active':'';
+    return `<div class="campus-block ${active}" data-campus="${esc(g.key)}">
+      <span class="campus-num">${n}</span>
+      <div class="campus-label">${esc(g.label)}</div>
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('.campus-block').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const v = el.getAttribute('data-campus');
+      const wasActive = el.classList.contains('is-active');
+      state.campus = wasActive ? '' : v;
+      renderCampusSplit();
+      syncSelectsFromState();
+      renderTable();
+    });
+  });
+
+  // 50% 유지를 위한 최소 유지 기업수
+  const minNeeded = Math.ceil(total * 0.5);
+  const currentRatio = ((campusFounderCount/total)*100).toFixed(1);
+  const margin = campusFounderCount - minNeeded;
+  const marginText = margin >= 0
+    ? `현재 ${campusFounderCount}개로 기준을 <b>${margin}개</b> 여유 있게 웃돌고 있습니다.`
+    : `현재 ${campusFounderCount}개로 기준에 <b>${-margin}개</b> 못 미칩니다.`;
+  document.getElementById('campusRatio').innerHTML = `
+    전체 ${total}개 기업 중 재학생·동문·교원 창업은 <b>${campusFounderCount}개(${currentRatio}%)</b>입니다.
+    교내창업 비율을 50% 이상으로 유지하려면 최소 <b>${minNeeded}개</b>의 교내창업 기업이 필요합니다 &mdash; ${marginText}
+  `;
+}
+
+// ---------- NEWIND ----------
+function renderNewind(){
+  document.getElementById('newindSummary').innerHTML = `
+    <div><b>${newindYes}</b> / ${total}개 기업이 신산업 창업 분야로 인정받았습니다.</div>
+  `;
+  const wrap = document.getElementById('newindTags');
+  wrap.innerHTML = tagList.map(([tag,n])=>{
+    const active = state.newind===tag ? 'is-active':'';
+    return `<div class="ntag ${active}" data-tag="${esc(tag)}">${esc(tag)}<span class="ntag-count">${n}</span></div>`;
+  }).join('');
+  wrap.querySelectorAll('.ntag').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const v = el.getAttribute('data-tag');
+      state.newind = state.newind===v ? '' : v;
+      renderNewind();
+      renderTable();
+    });
+  });
+}
+
+// ---------- TIMELINE ----------
+function renderTimeline(){
+  const wrap = document.getElementById('timelineRow');
+  const labels = {'26. 1. 1.':'1차 입주','26. 4. 1.':'2차 입주','26. 8. 1.':'3차 입주'};
+  wrap.innerHTML = moveinOrder.map(d=>{
+    const n = COMPANIES.filter(c=>c.movein===d).length;
+    const active = state.movein===d ? 'is-active':'';
+    return `<div class="tl-block ${active}" data-movein="${esc(d)}">
+      <span class="tl-date">${esc(d)}</span>
+      <span class="tl-num">${n}</span>
+      <div class="tl-label">${labels[d]||''}</div>
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('.tl-block').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const v = el.getAttribute('data-movein');
+      state.movein = state.movein===v ? '' : v;
+      renderTimeline();
+      syncSelectsFromState();
+      renderTable();
+    });
+  });
+}
+
+// ---------- FILTER SELECTS ----------
+function fillSelect(id, values){
+  const sel = document.getElementById(id);
+  values.forEach(v=>{
+    const opt = document.createElement('option');
+    opt.value = v; opt.textContent = v;
+    sel.appendChild(opt);
+  });
+}
+fillSelect('fSpace', spaceOrder);
+fillSelect('fField', fieldOrder);
+fillSelect('fOffice', ['개별오피스','공유오피스']);
+fillSelect('fBiztype', biztypeOrder);
+fillSelect('fCampus', ['재학생','동문','교원','__other__:교내창업 외']);
+// support "value:label" syntax for the fCampus select
+(function(){
+  const sel = document.getElementById('fCampus');
+  Array.from(sel.options).forEach(opt=>{
+    if(opt.value.includes(':')){
+      const [v,l] = opt.value.split(':');
+      opt.value = v; opt.textContent = l;
+    }
+  });
+})();
+fillSelect('fMovein', moveinOrder);
+
+function syncSelectsFromState(){
+  document.getElementById('fSpace').value = state.space;
+  document.getElementById('fField').value = state.field;
+  document.getElementById('fOffice').value = state.office;
+  document.getElementById('fBiztype').value = state.biztype;
+  document.getElementById('fCampus').value = state.campus;
+  document.getElementById('fMovein').value = state.movein;
+}
+
+document.getElementById('fSpace').addEventListener('change', e=>{ state.space=e.target.value; renderSpaceGrid(); renderTable(); });
+document.getElementById('fField').addEventListener('change', e=>{ state.field=e.target.value; renderFieldTabs(); renderFieldList(); renderTable(); });
+document.getElementById('fOffice').addEventListener('change', e=>{ state.office=e.target.value; renderOfficeSplit(); renderTable(); });
+document.getElementById('fBiztype').addEventListener('change', e=>{ state.biztype=e.target.value; renderBiztypeSplit(); renderTable(); });
+document.getElementById('fCampus').addEventListener('change', e=>{ state.campus=e.target.value; renderCampusSplit(); renderTable(); });
+document.getElementById('fMovein').addEventListener('change', e=>{ state.movein=e.target.value; renderTimeline(); renderTable(); });
+document.getElementById('searchInput').addEventListener('input', e=>{ state.search=e.target.value.trim(); renderTable(); });
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  state.space=''; state.field=''; state.office=''; state.biztype=''; state.campus=''; state.movein=''; state.newind=''; state.search='';
+  document.getElementById('searchInput').value='';
+  renderAll();
+});
+
+// ---------- TABLE ----------
+function matches(c){
+  if(state.space && c.space!==state.space) return false;
+  if(state.field && fieldKey(c.field)!==state.field) return false;
+  if(state.office && c.office_type!==state.office) return false;
+  if(state.biztype && c.biztype!==state.biztype) return false;
+  if(state.campus){
+    if(state.campus==='동문'){ if(!(c.campus_status==='동문'||c.campus_status==='동문(세종대)')) return false; }
+    else if(state.campus==='__other__'){ if(c.campus_status) return false; }
+    else if(c.campus_status!==state.campus) return false;
+  }
+  if(state.movein && c.movein!==state.movein) return false;
+  if(state.newind && !(c.newind_tags||[]).includes(state.newind)) return false;
+  if(state.search){
+    const s = state.search.toLowerCase();
+    const hay = (c.name+' '+c.ceo+' '+c.item).toLowerCase();
+    if(!hay.includes(s)) return false;
+  }
+  return true;
+}
+
+function renderTable(){
+  const rows = COMPANIES.filter(matches);
+  document.getElementById('resultCount').innerHTML = `<b>${rows.length}</b>개 기업 표시 중 (전체 ${total}개)`;
+  document.getElementById('dirBody').innerHTML = rows.map(c=>`
+    <tr>
+      <td class="cell-no">${c.no}</td>
+      <td>${esc(c.space)}</td>
+      <td>${esc(c.room)} <span class="badge badge-${c.office_type}">${c.office_type==='개별오피스'?'개별':'공유'}</span></td>
+      <td class="cell-name"><button type="button" class="cell-name-btn" data-no="${c.no}">${esc(c.name)}</button></td>
+      <td>${esc(c.biztype)}</td>
+      <td class="cell-field"><span class="field-dot" style="background:${fieldColor(c.field)}"></span>${esc(c.field||'미분류')}</td>
+      <td>${esc(c.ceo)}</td>
+      <td class="cell-item">${esc(c.item)}</td>
+      <td>${esc(c.campus_status||'-')}</td>
+      <td>${c.newind_applicable ? `<span class="badge badge-yes">해당</span>` : `<span class="badge badge-no">-</span>`}</td>
+      <td>${esc(c.movein)}</td>
+    </tr>
+  `).join('');
+  document.querySelectorAll('.cell-name-btn').forEach(el=>{
+    el.addEventListener('click', ()=> openModal(Number(el.getAttribute('data-no'))));
+  });
+}
+
+// ---------- MODAL ----------
+function openModal(no){
+  const c = COMPANIES.find(x=>x.no===no);
+  if(!c) return;
+  const phones = (c.phone||[]).filter(Boolean);
+  const emails = (c.email||[]).filter(Boolean);
+  const firstPhoneMatch = phones.length ? phones[0].match(/(\d{2,3}-\d{3,4}-\d{4})/g) : null;
+  const telHref = firstPhoneMatch ? firstPhoneMatch[0] : '';
+  const mailHref = emails.length ? emails[0] : '';
+
+  document.getElementById('modalBody').innerHTML = `
+    <h3 class="modal-name">${esc(c.name)}</h3>
+    <div class="modal-meta">${esc(c.space)} · ${esc(c.room)} · ${esc(c.biztype)}</div>
+
+    <div class="modal-section">
+      <div class="modal-label">대표자</div>
+      <div class="modal-value">${esc(c.ceo)}</div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-label">휴대폰번호</div>
+      ${phones.length ? phones.map(p=>`<div class="modal-value">${esc(p)}</div>`).join('') : '<div class="modal-value">-</div>'}
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-label">이메일</div>
+      ${emails.length ? emails.map(e=>`<div class="modal-value">${esc(e)}</div>`).join('') : '<div class="modal-value">-</div>'}
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-label">사업 아이템</div>
+      <div class="modal-value">${esc(c.item)}</div>
+    </div>
+
+    <div class="modal-actions">
+      ${mailHref ? `<a class="primary" href="mailto:${esc(mailHref)}">이메일 보내기</a>` : ''}
+      ${telHref ? `<a href="tel:${esc(telHref)}">전화 걸기</a>` : ''}
+    </div>
+  `;
+  document.getElementById('modalBackdrop').classList.add('is-open');
+}
+function closeModal(){
+  document.getElementById('modalBackdrop').classList.remove('is-open');
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalBackdrop').addEventListener('click', (e)=>{
+  if(e.target.id === 'modalBackdrop') closeModal();
+});
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+function renderAll(){
+  syncSelectsFromState();
+  renderSpaceGrid();
+  renderFieldTabs();
+  renderFieldBars();
+  renderFieldList();
+  renderOfficeSplit();
+  renderBiztypeSplit();
+  renderCampusSplit();
+  renderNewind();
+  renderTimeline();
+  renderTable();
+}
+
+renderAll();
+initMap();
+
+</script>
+</body>
+</html>
