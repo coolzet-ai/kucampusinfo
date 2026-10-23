@@ -125,6 +125,38 @@ a{color:inherit;}
 }
 
 /* ---------- JUMPNAV ---------- */
+.tabbar{
+  display:flex;
+  gap:0;
+  position:sticky;
+  top:0;
+  z-index:30;
+  background:var(--paper);
+  border-bottom:2px solid var(--ink);
+  height:50px;
+  margin-top:8px;
+  overflow-x:auto;
+}
+.tab-btn{
+  font:inherit;
+  font-family:'Gowun Batang',serif;
+  font-size:16px;
+  font-weight:700;
+  padding:0 20px;
+  border:none;
+  background:transparent;
+  color:var(--ink-soft);
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  margin-bottom:-2px;
+  white-space:nowrap;
+}
+.tab-btn:hover{color:var(--green);}
+.tab-btn[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--sienna);}
+.tab-btn:focus-visible{outline:2px solid var(--green);outline-offset:-2px;}
+.tabpanel[hidden]{display:none;}
+.sec-sub{font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:15px;font-weight:500;color:var(--ink-soft);}
+.sec-desc a[data-tab-link]{color:var(--green);font-weight:600;}
 .jumpnav{
   display:flex;
   flex-wrap:wrap;
@@ -133,7 +165,7 @@ a{color:inherit;}
   border-bottom:1px solid var(--line);
   font-size:13.5px;
   position:sticky;
-  top:0;
+  top:50px;
   background:var(--paper);
   z-index:20;
 }
@@ -149,7 +181,7 @@ a{color:inherit;}
 .section{
   padding:44px 0 8px;
   border-bottom:1px solid var(--line);
-  scroll-margin-top:52px;
+  scroll-margin-top:110px;
 }
 .sec-title{
   font-family:'Gowun Batang',serif;
@@ -744,6 +776,13 @@ tbody tr:hover{background:var(--bg-chip);}
     <div class="stat-row" id="statRow"></div>
   </header>
 
+  <nav class="tabbar" role="tablist" aria-label="페이지 탭">
+    <button type="button" role="tab" class="tab-btn" id="tab-dir" data-tab="dir" aria-controls="panel-dir" aria-selected="true">입주기업 디렉토리</button>
+    <button type="button" role="tab" class="tab-btn" id="tab-part" data-tab="part" aria-controls="panel-part" aria-selected="false">기업별 참여도</button>
+    <button type="button" role="tab" class="tab-btn" id="tab-status" data-tab="status" aria-controls="panel-status" aria-selected="false">참여 현황</button>
+  </nav>
+
+  <div class="tabpanel" id="panel-dir" role="tabpanel" aria-labelledby="tab-dir">
   <nav class="jumpnav">
     <a href="#spaces">공간별 현황</a>
     <a href="#fields">분야별 기업</a>
@@ -752,7 +791,6 @@ tbody tr:hover{background:var(--bg-chip);}
     <a href="#campus">교내창업 여부</a>
     <a href="#newind">신산업 분야</a>
     <a href="#timeline">입주일</a>
-    <a href="#participation">기업별 참여도</a>
     <a href="#directory">전체 디렉토리</a>
   </nav>
 
@@ -803,48 +841,10 @@ tbody tr:hover{background:var(--bg-chip);}
     <div class="timeline" id="timelineRow"></div>
   </section>
 
-    <section id="participation" class="section">
-    <h2 class="sec-title"><span class="sec-no">08</span>기업별 참여도</h2>
-    <p class="sec-desc">2026년 경진대회·쇼케이스(플리마켓·반함축제·대동제)·창업스쿨·대학 연합 창업포럼 결과보고서를 기준으로 입주기업 67개사의 프로그램 참가, 시상금, 창업지원금을 정리했습니다. 기업명을 누르면 상세가 열립니다.</p>
-
-    <h3 class="pt-sub" style="margin-top:0">참여도 우수 TOP 10</h3>
-    <p class="pt-note">참여 항목 수(시상 · 창업지원금 · 쇼케이스 · 사업계획서 멘토링 · TECH-UP · IR 데모데이 · 연합포럼, 최대 7개 — 쇼케이스는 플리마켓·반함축제·대동제 중 참여 행사 수와 관계없이 1개 항목)가 많은 순, 같으면 지원·시상금 합계가 큰 순입니다. 지원·시상금 합계 = 시상금 + 창업지원금 + 플리마켓 부스 참여비용. 연합포럼 우수상(REBLOCK)은 결과보고서에 시상금액이 기재되어 있지 않아 합계에 반영하지 않았습니다. 쇼케이스 중 반함축제·대동제 부스는 사업본부가 용역·현수막으로 일괄 집행해 기업별 지원금이 없으므로 합계에는 반영하지 않았습니다.</p>
-    <div class="top10" id="top10"></div>
-
-    <h3 class="pt-sub">프로그램별 통계 · 지원금</h3>
-    <div class="prog-grid" id="progGrid"></div>
-    <p class="pt-note" id="progTotal" style="margin-top:12px"></p>
-
-    <h3 class="pt-sub">기업별 참여 현황 (67개사)</h3>
-    <div class="pt-filter" id="ptFilter" role="group" aria-label="프로그램별 필터"></div>
-    <div class="pt-bar">
-      <label><input type="checkbox" id="ptHideZero"> 참여 항목 없는 기업 숨기기</label>
-      <span class="result-count" id="ptCount" style="margin:0"></span>
-    </div>
-    <div class="table-scroll">
-      <table id="ptTable">
-        <thead>
-          <tr>
-            <th data-sort="rank">순위</th>
-            <th data-sort="name">기업명</th>
-            <th data-sort="route">선발(경진대회)</th>
-            <th data-sort="prize">시상</th>
-            <th data-sort="grant">창업지원금</th>
-            <th data-sort="showcase">쇼케이스</th>
-            <th data-sort="school">창업스쿨</th>
-            <th data-sort="forum">연합포럼</th>
-            <th data-sort="items">참여 항목</th>
-            <th data-sort="money">지원·시상금 합계</th>
-          </tr>
-        </thead>
-        <tbody id="ptBody"></tbody>
-      </table>
-    </div>
-    <p class="pt-note">※ 선발 경로는 1차(2025.12 아이디어 경진대회) · 2차(2026.3 캠퍼스타운 창업경진대회) · 3차(2026.7 추가 모집) 결과보고서의 최종 선발 명단과 현재 입주기업 명단을 대조한 결과입니다. 창업스쿨 IR 데모데이 시상(3팀, 180만원)은 보고서에 수상팀이 기재되어 있지 않아 기업별 금액에 반영하지 않았습니다. 연합포럼은 2026.9.17 결과보고서(18과제) 기준 건국대 참여기업 5개사이며, 전시·상담 참여는 '연합포럼' 1개 항목으로 집계했습니다. 쇼케이스는 KU 캠퍼스타운 Showcase 결과보고서 기준으로 KU플리마켓(2026.5.29~31) 입주기업 9개사, 반함축제(2026.9.12) 3개사(BURDEN·네이처비아·(주)프레쉬아워), 대동제(2026.9.30~10.1) 3개사(브루어스·(주)코지메이커스·(주)이이키)이며, 행사는 구분해 표시하되 참여 항목은 '쇼케이스' 1개로 통합 집계했습니다.</p>
-  </section>
+    
 
   <section id="directory" class="section">
-    <h2 class="sec-title"><span class="sec-no">09</span>전체 디렉토리</h2>
+    <h2 class="sec-title"><span class="sec-no">08</span>전체 디렉토리</h2>
     <p class="sec-desc">기업명을 누르면 연락처가 열립니다. 검색하거나 아래 필터를 조합해 원하는 기업을 찾아보세요.</p>
 
     <div class="filter-bar">
@@ -881,6 +881,54 @@ tbody tr:hover{background:var(--bg-chip);}
       </table>
     </div>
   </section>
+  </div>
+
+  <div class="tabpanel" id="panel-part" role="tabpanel" aria-labelledby="tab-part" hidden>
+  <section id="participation" class="section">
+    <h2 class="sec-title"><span class="sec-no">01</span>기업별 참여도</h2>
+    <p class="sec-desc">2026년 경진대회·쇼케이스(플리마켓·반함축제·대동제)·창업스쿨·대학 연합 창업포럼 결과보고서를 기준으로 입주기업 67개사의 프로그램 참가, 시상금, 창업지원금을 정리했습니다. 기업명을 누르면 상세가 열립니다. 67개사 전체 표와 프로그램별 필터는 <a href="#status" data-tab-link="status">「참여 현황」 탭</a>에서 볼 수 있습니다.</p>
+
+    <h3 class="pt-sub" style="margin-top:0">참여도 우수 TOP 10</h3>
+    <p class="pt-note">참여 항목 수(시상 · 창업지원금 · 쇼케이스 · 사업계획서 멘토링 · TECH-UP · IR 데모데이 · 연합포럼, 최대 7개 — 쇼케이스는 플리마켓·반함축제·대동제 중 참여 행사 수와 관계없이 1개 항목)가 많은 순, 같으면 지원·시상금 합계가 큰 순입니다. 지원·시상금 합계 = 시상금 + 창업지원금 + 플리마켓 부스 참여비용. 연합포럼 우수상(REBLOCK)은 결과보고서에 시상금액이 기재되어 있지 않아 합계에 반영하지 않았습니다. 쇼케이스 중 반함축제·대동제 부스는 사업본부가 용역·현수막으로 일괄 집행해 기업별 지원금이 없으므로 합계에는 반영하지 않았습니다.</p>
+    <div class="top10" id="top10"></div>
+
+    <h3 class="pt-sub">프로그램별 통계 · 지원금</h3>
+    <div class="prog-grid" id="progGrid"></div>
+    <p class="pt-note" id="progTotal" style="margin-top:12px"></p>
+  </section>
+  </div>
+
+  <div class="tabpanel" id="panel-status" role="tabpanel" aria-labelledby="tab-status" hidden>
+  <section id="partstatus" class="section">
+    <h2 class="sec-title"><span class="sec-no">01</span>기업별 참여 현황 <span class="sec-sub">(67개사)</span></h2>
+    <p class="sec-desc">입주기업별 프로그램 참여 내역입니다. 아래 버튼으로 프로그램을 골라 좁혀 보고, 열 제목을 누르면 정렬됩니다. 표를 가로로 스크롤해도 순위와 기업명은 고정됩니다. 순위·참여 항목 기준은 <a href="#participation" data-tab-link="part">「기업별 참여도」 탭</a>과 같습니다.</p>
+    <div class="pt-filter" id="ptFilter" role="group" aria-label="프로그램별 필터"></div>
+    <div class="pt-bar">
+      <label><input type="checkbox" id="ptHideZero"> 참여 항목 없는 기업 숨기기</label>
+      <span class="result-count" id="ptCount" style="margin:0"></span>
+    </div>
+    <div class="table-scroll">
+      <table id="ptTable">
+        <thead>
+          <tr>
+            <th data-sort="rank">순위</th>
+            <th data-sort="name">기업명</th>
+            <th data-sort="route">선발(경진대회)</th>
+            <th data-sort="prize">시상</th>
+            <th data-sort="grant">창업지원금</th>
+            <th data-sort="showcase">쇼케이스</th>
+            <th data-sort="school">창업스쿨</th>
+            <th data-sort="forum">연합포럼</th>
+            <th data-sort="items">참여 항목</th>
+            <th data-sort="money">지원·시상금 합계</th>
+          </tr>
+        </thead>
+        <tbody id="ptBody"></tbody>
+      </table>
+    </div>
+    <p class="pt-note">※ 선발 경로는 1차(2025.12 아이디어 경진대회) · 2차(2026.3 캠퍼스타운 창업경진대회) · 3차(2026.7 추가 모집) 결과보고서의 최종 선발 명단과 현재 입주기업 명단을 대조한 결과입니다. 창업스쿨 IR 데모데이 시상(3팀, 180만원)은 보고서에 수상팀이 기재되어 있지 않아 기업별 금액에 반영하지 않았습니다. 연합포럼은 2026.9.17 결과보고서(18과제) 기준 건국대 참여기업 5개사이며, 전시·상담 참여는 '연합포럼' 1개 항목으로 집계했습니다. 쇼케이스는 KU 캠퍼스타운 Showcase 결과보고서 기준으로 KU플리마켓(2026.5.29~31) 입주기업 9개사, 반함축제(2026.9.12) 3개사(BURDEN·네이처비아·(주)프레쉬아워), 대동제(2026.9.30~10.1) 3개사(브루어스·(주)코지메이커스·(주)이이키)이며, 행사는 구분해 표시하되 참여 항목은 '쇼케이스' 1개로 통합 집계했습니다.</p>
+    </section>
+  </div>
 
   <footer class="foot">
     <p>건국대학교 캠퍼스타운사업단 입주기업 리스트(2026. 9. 9. 기준) &middot; 총 67개 기업 자료를 바탕으로 정리했습니다.</p>
@@ -951,7 +999,7 @@ document.getElementById('statRow').innerHTML = `
 function initMap(){
   const el = document.getElementById('spaceMap');
   if(!el || typeof L === 'undefined') return;
-  const map = L.map(el, { scrollWheelZoom:false }).setView([37.5410, 127.0770], 15);
+  const map = window._spaceMap = L.map(el, { scrollWheelZoom:false }).setView([37.5410, 127.0770], 15);
   L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     subdomains:'abc',
     maxZoom:19,
@@ -1547,6 +1595,45 @@ function renderAll(){
 
 renderAll();
 initMap();
+
+// ---------- TABS ----------
+const TAB_HASH = { dir:'', part:'#participation', status:'#status' };
+function showTab(name, opts={}){
+  if(!TAB_HASH.hasOwnProperty(name)) name='dir';
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    const on = b.getAttribute('data-tab')===name;
+    b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1;
+  });
+  document.querySelectorAll('.tabpanel').forEach(p=>{ p.hidden = p.id !== 'panel-'+name; });
+  if(name==='dir' && window._spaceMap) setTimeout(()=>window._spaceMap.invalidateSize(), 50);
+  if(opts.updateHash !== false){
+    const h = TAB_HASH[name];
+    history.replaceState(null,'', h || (location.pathname + location.search));
+  }
+  if(opts.scroll !== false){
+    const bar = document.querySelector('.tabbar');
+    const y = bar.getBoundingClientRect().top + window.scrollY - 8;
+    if(window.scrollY > y) window.scrollTo({top:y});
+  }
+}
+function tabFromHash(){
+  const h = location.hash;
+  if(h==='#participation' || h==='#part') return 'part';
+  if(h==='#status' || h==='#partstatus') return 'status';
+  return 'dir';
+}
+document.querySelectorAll('.tab-btn').forEach(b=>{
+  b.addEventListener('click',()=>showTab(b.getAttribute('data-tab')));
+  b.addEventListener('keydown',e=>{
+    if(e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
+    const btns=[...document.querySelectorAll('.tab-btn')];
+    const i=btns.indexOf(b); const n=btns[(i+(e.key==='ArrowRight'?1:-1)+btns.length)%btns.length];
+    n.focus(); showTab(n.getAttribute('data-tab'));
+  });
+});
+document.querySelectorAll('[data-tab-link]').forEach(a=> a.addEventListener('click',e=>{ e.preventDefault(); showTab(a.getAttribute('data-tab-link')); }));
+window.addEventListener('hashchange',()=>{ const t=tabFromHash(); if(t!=='dir' || document.getElementById('panel-dir').hidden) showTab(t,{updateHash:false}); });
+showTab(tabFromHash(), {updateHash:false, scroll:false});
 
 </script>
 </body>
