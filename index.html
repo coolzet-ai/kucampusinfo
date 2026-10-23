@@ -520,6 +520,10 @@ a{color:inherit;}
 .chip.c-grant{background:#DCE3D2;color:var(--green);}
 .chip.c-flea{background:#E8DDBE;color:var(--mustard);}
 .chip.c-school{background:#D8DCE6;color:var(--denim);}
+.chip.c-forum{background:#D6E6E2;color:#1F5F57;}
+.prog-card.wide{grid-column:1/-1;}
+.prog-card.wide .prog-table td,.prog-card.wide .prog-table th{text-align:left;}
+.prog-card.wide .prog-kpis{grid-template-columns:repeat(4,1fr);}
 .prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .prog-card{background:var(--card);border:1px solid var(--line);padding:16px 16px 12px;}
 .prog-card h4{margin:0 0 10px;font-size:15.5px;font-family:'Gowun Batang',serif;}
@@ -786,10 +790,10 @@ tbody tr:hover{background:var(--bg-chip);}
 
     <section id="participation" class="section">
     <h2 class="sec-title"><span class="sec-no">08</span>기업별 참여도</h2>
-    <p class="sec-desc">2026년 경진대회·플리마켓·창업스쿨 결과보고서를 기준으로 입주기업 67개사의 프로그램 참가, 시상금, 창업지원금을 정리했습니다. 기업명을 누르면 상세가 열립니다.</p>
+    <p class="sec-desc">2026년 경진대회·플리마켓·창업스쿨·대학 연합 창업포럼 결과보고서를 기준으로 입주기업 67개사의 프로그램 참가, 시상금, 창업지원금을 정리했습니다. 기업명을 누르면 상세가 열립니다.</p>
 
     <h3 class="pt-sub" style="margin-top:0">참여도 우수 TOP 10</h3>
-    <p class="pt-note">참여 항목 수(시상 · 창업지원금 · 플리마켓 · 사업계획서 멘토링 · TECH-UP · IR 데모데이, 최대 6개)가 많은 순, 같으면 지원·시상금 합계가 큰 순입니다. 지원·시상금 합계 = 시상금 + 창업지원금 + 플리마켓 부스 참여비용.</p>
+    <p class="pt-note">참여 항목 수(시상 · 창업지원금 · 플리마켓 · 사업계획서 멘토링 · TECH-UP · IR 데모데이 · 연합포럼, 최대 7개)가 많은 순, 같으면 지원·시상금 합계가 큰 순입니다. 지원·시상금 합계 = 시상금 + 창업지원금 + 플리마켓 부스 참여비용. 연합포럼 우수상(REBLOCK)은 결과보고서에 시상금액이 기재되어 있지 않아 합계에 반영하지 않았습니다.</p>
     <div class="top10" id="top10"></div>
 
     <h3 class="pt-sub">프로그램별 통계 · 지원금</h3>
@@ -812,6 +816,7 @@ tbody tr:hover{background:var(--bg-chip);}
             <th data-sort="grant">창업지원금</th>
             <th data-sort="flea">플리마켓</th>
             <th data-sort="school">창업스쿨</th>
+            <th data-sort="forum">연합포럼</th>
             <th data-sort="items">참여 항목</th>
             <th data-sort="money">지원·시상금 합계</th>
           </tr>
@@ -819,7 +824,7 @@ tbody tr:hover{background:var(--bg-chip);}
         <tbody id="ptBody"></tbody>
       </table>
     </div>
-    <p class="pt-note">※ 선발 경로는 1차(2025.12 아이디어 경진대회) · 2차(2026.3 캠퍼스타운 창업경진대회) · 3차(2026.7 추가 모집) 결과보고서의 최종 선발 명단과 현재 입주기업 명단을 대조한 결과입니다. 창업스쿨 IR 데모데이 시상(3팀, 180만원)은 보고서에 수상팀이 기재되어 있지 않아 기업별 금액에 반영하지 않았습니다.</p>
+    <p class="pt-note">※ 선발 경로는 1차(2025.12 아이디어 경진대회) · 2차(2026.3 캠퍼스타운 창업경진대회) · 3차(2026.7 추가 모집) 결과보고서의 최종 선발 명단과 현재 입주기업 명단을 대조한 결과입니다. 창업스쿨 IR 데모데이 시상(3팀, 180만원)은 보고서에 수상팀이 기재되어 있지 않아 기업별 금액에 반영하지 않았습니다. 연합포럼은 2026.9.17 결과보고서(18과제) 기준 건국대 참여기업 5개사이며, 전시·상담 참여는 '연합포럼' 1개 항목으로 집계했습니다.</p>
   </section>
 
   <section id="directory" class="section">
@@ -1275,6 +1280,15 @@ function renderTable(){
 
 // ---------- PARTICIPATION ----------
 const PART = {"1":{"r":"2차","a":["2차 대상"],"pz":1000000},"2":{"r":"1차"},"3":{"r":"1차"},"4":{"r":"1차","g":4000000},"5":{"r":"1차","g":4000000},"6":{"r":"1차","g":10000000},"7":{"r":"1차","g":5000000},"8":{"r":"1차"},"9":{"r":"1차"},"10":{"r":"1차","g":4000000},"11":{"r":"1차"},"12":{"r":"2차","f":1,"t":1},"13":{"r":"1차","g":5000000,"b":1},"14":{"r":"1차"},"15":{"r":"1차"},"16":{"r":"2차","g":5000000,"f":1},"17":{"r":"1차"},"18":{"r":"3차","d":1},"19":{"r":"1차","g":5000000},"20":{"r":"1차"},"21":{"r":"1차","g":4000000,"d":1},"22":{"r":"1차","g":5000000,"t":1},"23":{"r":"1차","b":1},"24":{"r":"3차"},"25":{"r":"1차","f":1},"26":{"r":"1차","f":1,"t":1},"27":{"r":"1차"},"28":{"r":"1차","b":1},"29":{"r":"1차","g":5000000},"30":{"r":"1차","g":4000000},"31":{"r":"1차","g":5000000},"32":{"r":"1차","t":1},"33":{"r":"1차","a":["1차 우수상"],"pz":500000,"t":1},"34":{"r":"3차"},"35":{"r":"1차","a":["1차 최우수상"],"pz":1000000,"b":1},"36":{"r":"1차","b":1},"37":{"r":"3차"},"38":{"r":"1차","g":4000000,"f":1},"39":{"r":"1차","t":1},"40":{"r":"3차"},"41":{"r":"1차"},"42":{"r":"2차","f":1,"t":1},"43":{"r":"2차"},"44":{"r":"2차","g":10000000},"45":{"r":"1차","t":1},"46":{"r":"1차"},"47":{"r":"1차","a":["1차 우수상"],"pz":500000},"48":{"r":"1차"},"49":{"r":"1차","f":1},"50":{"r":"1차"},"51":{"r":"1차","a":["1차 대상"],"pz":2000000,"g":4000000,"f":1,"b":1},"52":{"r":"1차","t":1},"53":{"r":"1차"},"54":{"r":"1차"},"55":{"r":"1차"},"56":{"r":"1차","d":1},"57":{"r":"2차","g":5000000},"58":{"r":"2차","g":4000000,"d":1},"59":{"r":"1차","g":4000000,"f":1,"d":1},"60":{"r":"1차","t":1},"61":{"r":"3차","d":1},"62":{"r":"2차","d":1},"63":{"r":"1차"},"64":{"r":"2차"},"65":{"r":"2차","b":1},"66":{"r":"2차"},"67":{"r":"2차","g":4000000,"b":1}};
+// 2026.9.17 캠퍼스타운 대학 연합 창업포럼 (18과제 결과보고서 2026.10 기준 · 건국대 참여기업 5개사)
+const FORUM = {
+  "61":{u:["IR 데모데이","기술사업화 전시","글로벌 Jump-up","네트워킹 상담"],ua:"연합포럼 우수상",n:4},
+  "45":{u:["IR 데모데이","네트워킹 상담"],n:3},
+  "35":{u:["기술사업화 전시"],n:0},
+  "52":{u:["글로벌 Jump-up","네트워킹 상담"],n:4},
+  "63":{u:["네트워킹 상담"],n:1}
+};
+Object.keys(FORUM).forEach(k=>Object.assign(PART[k],FORUM[k]));
 const WON = n => n>0 ? (n/10000).toLocaleString('ko-KR')+'만원' : '-';
 const WON_FULL = n => n.toLocaleString('ko-KR')+'원';
 const FLEA_FEE = 150000;
@@ -1284,7 +1298,8 @@ const FLEA_FEE = 150000;
     p.award = p.a||[]; p.prize=p.pz||0; p.grant=p.g||0;
     p.flea = !!p.f; p.fleaFee = p.flea ? FLEA_FEE : 0;
     p.school = [p.b?'사업계획서 멘토링':null, p.t?'TECH-UP':null, p.d?'IR 데모데이·U300+':null].filter(Boolean);
-    p.items = (p.award.length?1:0)+(p.grant>0?1:0)+(p.flea?1:0)+(p.b?1:0)+(p.t?1:0)+(p.d?1:0);
+    p.forum = p.u||[]; p.forumAward = p.ua||''; p.forumN = p.n||0;
+    p.items = (p.forum.length?1:0)+(p.award.length?1:0)+(p.grant>0?1:0)+(p.flea?1:0)+(p.b?1:0)+(p.t?1:0)+(p.d?1:0);
     p.money = p.prize+p.grant+p.fleaFee;
   });
   const sorted = Object.values(PART).sort((x,y)=> y.items-x.items || y.money-x.money || x.name.localeCompare(y.name,'ko'));
@@ -1296,6 +1311,8 @@ function partChips(p){
   if(p.grant>0) out.push(`<span class="chip c-grant">창업지원금 ${WON(p.grant)}</span>`);
   if(p.flea) out.push(`<span class="chip c-flea">플리마켓</span>`);
   p.school.forEach(s=>out.push(`<span class="chip c-school">${esc(s)}</span>`));
+  if(p.forumAward) out.push(`<span class="chip c-award">${esc(p.forumAward)}</span>`);
+  p.forum.forEach(s=>out.push(`<span class="chip c-forum">연합포럼 · ${esc(s)}</span>`));
   return out.join('');
 }
 function renderTop10(){
@@ -1336,14 +1353,25 @@ function renderPrograms(){
         <tr><td>KU TECH-UP 기술자문</td><td>10개사</td></tr>
         <tr><td>IR 실전 데모데이·U300+ 선발</td><td>7개사</td></tr></tbody></table>
       <p class="prog-foot"><b>집행 구성</b> — 일반용역비 19,800,000원 · 기타운영비 14,164,900원 · 포상금 1,800,000원(IR 데모데이 3팀: 대상 100만 / 최우수 50만 / 우수 30만).</p>
-      <p class="prog-foot">※ 보고서 요약은 U300+ 입주기업 6팀으로 기재되어 있으나, 명단(REBLOCK·로봇컴·벳츄원·에듀포인터·옐로우삭스·온리브(온마카세)·푸로운)을 입주기업과 대조하면 7개사입니다. 확인이 필요합니다.</p></div>`
+      <p class="prog-foot">※ 보고서 요약은 U300+ 입주기업 6팀으로 기재되어 있으나, 명단(REBLOCK·로봇컴·벳츄원·에듀포인터·옐로우삭스·온리브(온마카세)·푸로운)을 입주기업과 대조하면 7개사입니다. 확인이 필요합니다.</p></div>`,
+    `<div class="prog-card wide"><h4>4) 캠퍼스타운 대학 연합 창업포럼 (2026.9.17)</h4>
+      <div class="prog-kpis">${kpi('8,000,000원','건국대 운영 집행액 (집행률 100%)')}${kpi('105명','참여자 (목표 100명, 105%)')}${kpi('4.84점','행사 전반 만족도(5점) · 100점 환산 96.8점')}${kpi('5개사','건국대 참여기업')}</div>
+      <table class="prog-table"><thead><tr><th>세션</th><th>운영 개요</th><th>건국대 참여기업</th></tr></thead><tbody>
+        <tr><td>1) 토크콘서트</td><td>13:00~14:00 · 투자·산업 전문가 5명 · 만족도 4.73</td><td>-</td></tr>
+        <tr><td>2) IR 데모데이</td><td>14:15~16:15 · 4개 대학 8개사 발표 · 평가위원 5명 · 만족도 4.71</td><td>REBLOCK(3위 · 우수상), 아이로(8위)</td></tr>
+        <tr><td>3) 기술사업화 전시·상담</td><td>13:05~16:15 · 10개 기업·연구실 · 만족도 4.46</td><td>REBLOCK, 밀리사이트테크놀러지스</td></tr>
+        <tr><td>4) 글로벌 창업 Jump-up</td><td>14:05~16:30 · 북미·유럽·일본·동남아 전문가 6명 1:1 상담 · 만족도 4.79</td><td>REBLOCK(2회), 뉴런즈(1회)</td></tr>
+        <tr><td>5) 네트워킹·상담</td><td>16:30~18:30 · 투자·지원기관 11명 · 정책자금·TIPS·LIPS 상담 · 만족도 4.79</td><td>아이로(3회), 뉴런즈(3회), REBLOCK(2회), 하트플래닛컴퍼니(1회)</td></tr></tbody></table>
+      <p class="prog-foot"><b>시상</b> — 대상 직행(한양대) · 최우수 자이스웍스(연세대) · <b>우수 REBLOCK(건국대)</b> · 장려 포오랩(경희대). 시상금액은 보고서에 기재되어 있지 않습니다.</p>
+      <p class="prog-foot"><b>집행 내역(프로그램 4번 Jump-up, 일반용역비)</b> — 용역사 인건비 220만원 · 전문가 활용비 396만원(6인) · 디자인제작 88만원 · X배너 16.5만원 · 명패 13.2만원 · A3스탠드 13.2만원 · 현장스텝 인건비 33만원 · 회의비·배송비 등 20.1만원 = 800만원.</p>
+      <p class="prog-foot"><b>후속 연계 희망</b> — 현대건설: REBLOCK · 직행 / 베론글로벌: 뉴런즈 · 자이스웍스 · 그레타 · 넥스트솔 · 넥스포톤 / THE GARRISON: REBLOCK · 비욘드메디슨 (기업 IR 자료 확인 후 담당자 연결 추진).</p></div>`
   ];
   document.getElementById('progGrid').innerHTML = cards.join('');
-  document.getElementById('progTotal').innerHTML = '<b>3개 프로그램 집행 합계 155,050,700원</b> (경진대회 117,935,800원 + 플리마켓 1,350,000원 + 창업스쿨 35,764,900원). 이 중 기업에 직접 지급·지원된 금액은 시상금 500만원과 창업지원금 1억원, 플리마켓 부스 참여비용 135만원입니다.';
+  document.getElementById('progTotal').innerHTML = '<b>4개 프로그램 집행 합계 163,050,700원</b> (경진대회 117,935,800원 + 플리마켓 1,350,000원 + 창업스쿨 35,764,900원 + 연합포럼 8,000,000원). 이 중 기업에 직접 지급·지원된 금액은 시상금 500만원과 창업지원금 1억원, 플리마켓 부스 참여비용 135만원입니다.';
 }
 const ptState = { key:'rank', dir:1, hideZero:false };
 function renderPartTable(){
-  const val = (p,k)=>({rank:p.rank,name:p.name,route:p.route,prize:p.prize,grant:p.grant,flea:p.flea?1:0,school:p.school.length,items:p.items,money:p.money})[k];
+  const val = (p,k)=>({rank:p.rank,name:p.name,route:p.route,prize:p.prize,grant:p.grant,flea:p.flea?1:0,school:p.school.length,forum:p.forum.length,items:p.items,money:p.money})[k];
   let rows = Object.values(PART);
   if(ptState.hideZero) rows = rows.filter(p=>p.items>0);
   rows.sort((a,b)=>{
@@ -1361,6 +1389,7 @@ function renderPartTable(){
       <td class="num">${p.grant>0 ? WON(p.grant) : '-'}</td>
       <td>${p.flea ? '<span class="chip c-flea">참가</span>' : '-'}</td>
       <td>${p.school.length ? p.school.map(s=>`<span class="chip c-school">${esc(s)}</span>`).join(' ') : '-'}</td>
+      <td>${p.forum.length ? (p.forumAward?'<span class="chip c-award">'+esc(p.forumAward.replace('연합포럼 ',''))+'</span> ':'')+p.forum.map(s=>`<span class="chip c-forum">${esc(s)}</span>`).join(' ') : '-'}</td>
       <td class="num">${p.items}</td>
       <td class="num">${p.money>0 ? WON(p.money) : '-'}</td>
     </tr>`).join('');
