@@ -521,10 +521,12 @@ a{color:inherit;}
 .chip.c-flea{background:#E8DDBE;color:var(--mustard);}
 .chip.c-school{background:#D8DCE6;color:var(--denim);}
 .chip.c-forum{background:#D6E6E2;color:#1F5F57;}
+.chip.c-fest{background:#F0D9C8;color:var(--sienna);}
 .prog-card.wide{grid-column:1/-1;}
+.prog-card.wide .prog-table td:first-child{white-space:nowrap;}
 .prog-card.wide .prog-table td,.prog-card.wide .prog-table th{text-align:left;}
 .prog-card.wide .prog-kpis{grid-template-columns:repeat(4,1fr);}
-.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.prog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
 .prog-card{background:var(--card);border:1px solid var(--line);padding:16px 16px 12px;}
 .prog-card h4{margin:0 0 10px;font-size:15.5px;font-family:'Gowun Batang',serif;}
 .prog-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px;}
@@ -540,6 +542,19 @@ a{color:inherit;}
 #ptTable th[data-sort]{cursor:pointer;}
 #ptTable th[data-sort]:hover{color:var(--green);}
 #ptTable td{white-space:normal;}
+/* 기업별 참여 현황: 순위·기업명 고정(가로 스크롤 시) */
+#ptTable{border-collapse:separate;border-spacing:0;}
+#ptTable th:nth-child(1),#ptTable td:nth-child(1){position:sticky;left:0;z-index:2;width:52px;min-width:52px;max-width:52px;}
+#ptTable th:nth-child(2),#ptTable td:nth-child(2){position:sticky;left:52px;z-index:2;min-width:170px;box-shadow:inset -1px 0 0 var(--line), 6px 0 8px -6px rgba(30,42,34,.25);}
+#ptTable td:nth-child(1),#ptTable td:nth-child(2){background:var(--card);}
+#ptTable th:nth-child(1),#ptTable th:nth-child(2){background:var(--paper-2);z-index:3;}
+#ptTable tbody tr:hover td{background:var(--bg-chip);}
+#ptTable td:nth-child(2) .cell-name-btn{white-space:normal;text-align:left;}
+.pt-filter{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin:4px 0 12px;}
+.pt-filter .pf-group{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center;padding:3px;border:1px dashed var(--line);border-radius:22px;}
+.pt-filter .ftab{font-size:12.5px;padding:5px 12px;}
+.pt-filter .ftab.sub{font-size:11.5px;padding:3px 10px;}
+.pt-filter .ftab .cnt{opacity:.7;margin-left:4px;}
 #ptTable .num{text-align:right;font-family:'IBM Plex Mono',monospace;white-space:nowrap;}
 .modal-part{display:flex;flex-wrap:wrap;gap:4px;}
 @media(max-width:820px){.top10{grid-template-columns:1fr;}.prog-grid{grid-template-columns:1fr;}}
@@ -720,7 +735,7 @@ tbody tr:hover{background:var(--bg-chip);}
     <div class="hero-eyebrow-row">
       <span class="tag-ku">건국대학교</span>
       <div class="hero-meta-right">
-        <span class="tag-date">업데이트 2026. 9. 9.</span>
+        <span class="tag-date">업데이트 2026. 10. 23.</span>
         <span class="tag-author">제작 캠타김군 · <a href="mailto:coolzet@konkuk.ac.kr">coolzet@konkuk.ac.kr</a></span>
       </div>
     </div>
@@ -790,10 +805,10 @@ tbody tr:hover{background:var(--bg-chip);}
 
     <section id="participation" class="section">
     <h2 class="sec-title"><span class="sec-no">08</span>기업별 참여도</h2>
-    <p class="sec-desc">2026년 경진대회·플리마켓·창업스쿨·대학 연합 창업포럼 결과보고서를 기준으로 입주기업 67개사의 프로그램 참가, 시상금, 창업지원금을 정리했습니다. 기업명을 누르면 상세가 열립니다.</p>
+    <p class="sec-desc">2026년 경진대회·쇼케이스(플리마켓·반함축제·대동제)·창업스쿨·대학 연합 창업포럼 결과보고서를 기준으로 입주기업 67개사의 프로그램 참가, 시상금, 창업지원금을 정리했습니다. 기업명을 누르면 상세가 열립니다.</p>
 
     <h3 class="pt-sub" style="margin-top:0">참여도 우수 TOP 10</h3>
-    <p class="pt-note">참여 항목 수(시상 · 창업지원금 · 플리마켓 · 사업계획서 멘토링 · TECH-UP · IR 데모데이 · 연합포럼, 최대 7개)가 많은 순, 같으면 지원·시상금 합계가 큰 순입니다. 지원·시상금 합계 = 시상금 + 창업지원금 + 플리마켓 부스 참여비용. 연합포럼 우수상(REBLOCK)은 결과보고서에 시상금액이 기재되어 있지 않아 합계에 반영하지 않았습니다.</p>
+    <p class="pt-note">참여 항목 수(시상 · 창업지원금 · 쇼케이스 · 사업계획서 멘토링 · TECH-UP · IR 데모데이 · 연합포럼, 최대 7개 — 쇼케이스는 플리마켓·반함축제·대동제 중 참여 행사 수와 관계없이 1개 항목)가 많은 순, 같으면 지원·시상금 합계가 큰 순입니다. 지원·시상금 합계 = 시상금 + 창업지원금 + 플리마켓 부스 참여비용. 연합포럼 우수상(REBLOCK)은 결과보고서에 시상금액이 기재되어 있지 않아 합계에 반영하지 않았습니다. 쇼케이스 중 반함축제·대동제 부스는 사업본부가 용역·현수막으로 일괄 집행해 기업별 지원금이 없으므로 합계에는 반영하지 않았습니다.</p>
     <div class="top10" id="top10"></div>
 
     <h3 class="pt-sub">프로그램별 통계 · 지원금</h3>
@@ -801,6 +816,7 @@ tbody tr:hover{background:var(--bg-chip);}
     <p class="pt-note" id="progTotal" style="margin-top:12px"></p>
 
     <h3 class="pt-sub">기업별 참여 현황 (67개사)</h3>
+    <div class="pt-filter" id="ptFilter" role="group" aria-label="프로그램별 필터"></div>
     <div class="pt-bar">
       <label><input type="checkbox" id="ptHideZero"> 참여 항목 없는 기업 숨기기</label>
       <span class="result-count" id="ptCount" style="margin:0"></span>
@@ -814,7 +830,7 @@ tbody tr:hover{background:var(--bg-chip);}
             <th data-sort="route">선발(경진대회)</th>
             <th data-sort="prize">시상</th>
             <th data-sort="grant">창업지원금</th>
-            <th data-sort="flea">플리마켓</th>
+            <th data-sort="showcase">쇼케이스</th>
             <th data-sort="school">창업스쿨</th>
             <th data-sort="forum">연합포럼</th>
             <th data-sort="items">참여 항목</th>
@@ -824,7 +840,7 @@ tbody tr:hover{background:var(--bg-chip);}
         <tbody id="ptBody"></tbody>
       </table>
     </div>
-    <p class="pt-note">※ 선발 경로는 1차(2025.12 아이디어 경진대회) · 2차(2026.3 캠퍼스타운 창업경진대회) · 3차(2026.7 추가 모집) 결과보고서의 최종 선발 명단과 현재 입주기업 명단을 대조한 결과입니다. 창업스쿨 IR 데모데이 시상(3팀, 180만원)은 보고서에 수상팀이 기재되어 있지 않아 기업별 금액에 반영하지 않았습니다. 연합포럼은 2026.9.17 결과보고서(18과제) 기준 건국대 참여기업 5개사이며, 전시·상담 참여는 '연합포럼' 1개 항목으로 집계했습니다.</p>
+    <p class="pt-note">※ 선발 경로는 1차(2025.12 아이디어 경진대회) · 2차(2026.3 캠퍼스타운 창업경진대회) · 3차(2026.7 추가 모집) 결과보고서의 최종 선발 명단과 현재 입주기업 명단을 대조한 결과입니다. 창업스쿨 IR 데모데이 시상(3팀, 180만원)은 보고서에 수상팀이 기재되어 있지 않아 기업별 금액에 반영하지 않았습니다. 연합포럼은 2026.9.17 결과보고서(18과제) 기준 건국대 참여기업 5개사이며, 전시·상담 참여는 '연합포럼' 1개 항목으로 집계했습니다. 쇼케이스는 KU 캠퍼스타운 Showcase 결과보고서 기준으로 KU플리마켓(2026.5.29~31) 입주기업 9개사, 반함축제(2026.9.12) 3개사(BURDEN·네이처비아·(주)프레쉬아워), 대동제(2026.9.30~10.1) 3개사(브루어스·(주)코지메이커스·(주)이이키)이며, 행사는 구분해 표시하되 참여 항목은 '쇼케이스' 1개로 통합 집계했습니다.</p>
   </section>
 
   <section id="directory" class="section">
@@ -1289,6 +1305,16 @@ const FORUM = {
   "63":{u:["네트워킹 상담"],n:1}
 };
 Object.keys(FORUM).forEach(k=>Object.assign(PART[k],FORUM[k]));
+// KU 캠퍼스타운 Showcase 축제 부스 (반함축제 2026.9.12 · 대동제 2026.9.30~10.1 결과보고서 기준, 입주기업만)
+const FEST = {
+  "19":["반함축제"],  // BURDEN(버든)
+  "22":["반함축제"],  // (주)프레쉬아워
+  "43":["반함축제"],  // 네이처비아
+  "25":["대동제"],    // 브루어스
+  "54":["대동제"],    // (주)코지메이커스
+  "28":["대동제"]     // (주)이이키
+};
+Object.keys(FEST).forEach(k=>{ PART[k].fe = FEST[k]; });
 const WON = n => n>0 ? (n/10000).toLocaleString('ko-KR')+'만원' : '-';
 const WON_FULL = n => n.toLocaleString('ko-KR')+'원';
 const FLEA_FEE = 150000;
@@ -1299,7 +1325,10 @@ const FLEA_FEE = 150000;
     p.flea = !!p.f; p.fleaFee = p.flea ? FLEA_FEE : 0;
     p.school = [p.b?'사업계획서 멘토링':null, p.t?'TECH-UP':null, p.d?'IR 데모데이·U300+':null].filter(Boolean);
     p.forum = p.u||[]; p.forumAward = p.ua||''; p.forumN = p.n||0;
-    p.items = (p.forum.length?1:0)+(p.award.length?1:0)+(p.grant>0?1:0)+(p.flea?1:0)+(p.b?1:0)+(p.t?1:0)+(p.d?1:0);
+    p.fest = p.fe||[];
+    p.showcase = [p.flea?'플리마켓':null, ...p.fest];
+    p.showcase = p.showcase.filter(Boolean);
+    p.items = (p.forum.length?1:0)+(p.award.length?1:0)+(p.grant>0?1:0)+(p.showcase.length?1:0)+(p.b?1:0)+(p.t?1:0)+(p.d?1:0);
     p.money = p.prize+p.grant+p.fleaFee;
   });
   const sorted = Object.values(PART).sort((x,y)=> y.items-x.items || y.money-x.money || x.name.localeCompare(y.name,'ko'));
@@ -1309,7 +1338,7 @@ function partChips(p){
   const out=[];
   p.award.forEach(a=>out.push(`<span class="chip c-award">${esc(a)}</span>`));
   if(p.grant>0) out.push(`<span class="chip c-grant">창업지원금 ${WON(p.grant)}</span>`);
-  if(p.flea) out.push(`<span class="chip c-flea">플리마켓</span>`);
+  p.showcase.forEach(sc=>out.push(`<span class="chip c-flea">쇼케이스 · ${esc(sc)}</span>`));
   p.school.forEach(s=>out.push(`<span class="chip c-school">${esc(s)}</span>`));
   if(p.forumAward) out.push(`<span class="chip c-award">${esc(p.forumAward)}</span>`);
   p.forum.forEach(s=>out.push(`<span class="chip c-forum">연합포럼 · ${esc(s)}</span>`));
@@ -1339,14 +1368,7 @@ function renderPrograms(){
       <p class="prog-foot"><b>시상금 500만원</b> — 1차: 대상 200만(비바엘모멘토) · 최우수 100만(밀리사이트테크놀러지스) · 우수 50만×2(에이배리스터컴퍼니, 쭉) / 2차: 대상 100만(더마트릭스). 1차 최우수상 헬퍼로보틱스는 입주 포기로 상금 100만원이 2차 우수팀에 지급됨.</p>
       <p class="prog-foot"><b>창업지원금 1억원(20팀)</b> — 상위 2팀 1,000만원(레드윗, 넷) · 중위 8팀 500만원 · 하위 10팀 400만원. 지원실적: 제품·서비스 개발·시제품 13건, 마케팅·판로 10건, 디자인·브랜드 6건, 사업화 기반 3건, 지식재산권 1건.</p>
       <p class="prog-foot">※ 2차 집행액에는 1차 시상금(400만원)과 창업지원금이 포함되어 있으며, 1차 보고서 집행액(8,575,800원)은 시상금을 제외한 금액입니다. 지원·선발 팀 수는 차수별 단순 합산입니다(중복 지원 가능).</p></div>`,
-    `<div class="prog-card"><h4>2) KU플리마켓 (Showcase)</h4>
-      <div class="prog-kpis">${kpi('1,350,000원','집행액 (15만원 × 9부스)')}${kpi('9개사','참여 입주기업(목표 대비 100%)')}${kpi('4.83점','참여기업 만족도(목표 4.5)')}${kpi('12명','프로모션 참가 일반인')}</div>
-      <table class="prog-table"><tbody>
-        <tr><td>일시·장소</td><td>2026.5.29~5.31 · 롯데백화점 건대점 만남의 광장</td></tr>
-        <tr><td>참여기업</td><td>라비음, 페이퍼팝, 유오바이오랩스, 새니닥, 온마카세, 에이트린, 르보네어, 브루어스, 비바엘모멘토</td></tr>
-        <tr><td>집행 내역</td><td>교육·연구 프로그램 개발·운영비 — 부스 참여 비용 1,350,000원 (집행률 100%)</td></tr></tbody></table>
-      <p class="prog-foot">참여자 소속 자치구: 광진구 66.7% · 성동구 25% · 중구 8.3% / 참여 경로: 사업본부 홈페이지 41.7%.</p></div>`,
-    `<div class="prog-card"><h4>3) 창업스쿨</h4>
+    `<div class="prog-card"><h4>2) 창업스쿨</h4>
       <div class="prog-kpis">${kpi('35,764,900원','집행액 (예산 3,600만원, 99.3%)')}${kpi('306명','총 참가(전년 62명 대비 약 4.9배)')}${kpi('4.74점','만족도(목표 4.3)')}${kpi('18팀 / 81명','U300+ 건국대 최종 선발')}</div>
       <table class="prog-table"><thead><tr><th>입주기업 대상 프로그램</th><th>참여 기업</th></tr></thead><tbody>
         <tr><td>사업계획서·마케팅 멘토링</td><td>8개사</td></tr>
@@ -1354,6 +1376,16 @@ function renderPrograms(){
         <tr><td>IR 실전 데모데이·U300+ 선발</td><td>7개사</td></tr></tbody></table>
       <p class="prog-foot"><b>집행 구성</b> — 일반용역비 19,800,000원 · 기타운영비 14,164,900원 · 포상금 1,800,000원(IR 데모데이 3팀: 대상 100만 / 최우수 50만 / 우수 30만).</p>
       <p class="prog-foot">※ 보고서 요약은 U300+ 입주기업 6팀으로 기재되어 있으나, 명단(REBLOCK·로봇컴·벳츄원·에듀포인터·옐로우삭스·온리브(온마카세)·푸로운)을 입주기업과 대조하면 7개사입니다. 확인이 필요합니다.</p></div>`,
+    `<div class="prog-card wide"><h4>3) KU 캠퍼스타운 Showcase — 플리마켓 · 반함축제 · 대동제</h4>
+      <div class="prog-kpis">${kpi('11,747,100원','3개 행사 집행액 (집행률 100%)')}${kpi('15개사','부스 참여 입주기업 (9 · 3 · 3) · 목표 20팀 대비 75%')}${kpi('4.63점','통합 만족도 (4.83 · 4.63 · 4.42 평균, 목표 4.3)')}${kpi('3 / 5건','축제 운영 완료 (KUration Market · Dream Fair 예정)')}</div>
+      <table class="prog-table"><thead><tr><th>구분</th><th>KU플리마켓</th><th>반함축제</th><th>대동제</th></tr></thead><tbody>
+        <tr><td>일시·장소</td><td>2026.5.29~5.31 · 롯데백화점 건대점 만남의 광장</td><td>2026.9.12(토) 10:00~17:00 · 광진숲나루 (「광진구 반려동물과 함께하는 축제」 연계)</td><td>2026.9.30(수)~10.1(목) 10:00~16:00 · 본교 학생회관 게시판 인근</td></tr>
+        <tr><td>참여 입주기업</td><td>9개사 — 라비음, 페이퍼팝, 유오바이오랩스, 새니닥, 온마카세, 에이트린, 르보네어, 브루어스, 비바엘모멘토</td><td>3개사 — BURDEN(버든), 네이처비아, (주)프레쉬아워 (전체 7팀 중, 그 외 KHAI·바이에른주립마이스터학교·KUbiz·언오운)</td><td>3개사 — 브루어스(대체커피), (주)코지메이커스(AI 학습도구 이음 시연), (주)이이키(당근잎차)</td></tr>
+        <tr><td>만족도</td><td>참여기업 4.83점 (목표 4.5)</td><td>방문객 4.63점 (215명 응답, "매우 만족" 68.4%)</td><td>참여기업 4.42점 ("만족" 이상 95.8%)</td></tr>
+        <tr><td>주요 성과</td><td>프로모션 참가 일반인 12명 · 참여자 광진구 66.7% · 성동구 25%</td><td>재참여 의향 99.1% · 도장판 500부 중 219장 회수(44%) · 광진구 방문자 74.7%</td><td>부스 방문객 36명(9.30 28명 · 10.1 8명) · 피드백 확인 50% · 인지도 향상 33.3%</td></tr>
+        <tr><td>집행액</td><td><b>1,350,000원</b><br>부스 참여비 15만원 × 9부스</td><td><b>10,309,100원</b><br>일반용역비 1,000만원(부스 제작·철거 650만 · 테이블 130만 · 아치풍선 130만 · 부가세 91만, 단위절삭) + 일반수용비 309,100원(도장판·퀵배송)</td><td><b>88,000원</b><br>현수막(타공) 4만원 × 2개 + VAT 8,000원</td></tr>
+        <tr><td>환류</td><td>현장 피드백 기반 UI/UX·제품 전략 고도화 지원</td><td>주차 협소 → 인근 공영주차장 사전 섭외·안내 / 당일 부스 이동 → 전기 사용 사전 조사 후 배치도 확정</td><td>판매 불가 → 판매 가능한 박람회·플리마켓 연계 / 분야 대표성 부족 → 사전 수요조사로 업종별 확대</td></tr></tbody></table>
+      <p class="prog-foot">※ 축제 부스 참여기업 KPI(목표 20팀)는 9 + 3 + 3 = 15팀(75%)이며, 남은 5팀은 KUration Market·KU Dream Fair(10~11월)로 충족 예정입니다. 브루어스는 플리마켓·대동제 두 행사에 참여했으나 기업 수 KPI는 결과보고서 기준대로 행사별 합산입니다. 대동제 결과보고서의 만족도 소제목은 4.6점이나 요약·본문 평균 4.42점을 사용했습니다.</p></div>`,
     `<div class="prog-card wide"><h4>4) 캠퍼스타운 대학 연합 창업포럼 (2026.9.17)</h4>
       <div class="prog-kpis">${kpi('8,000,000원','건국대 운영 집행액 (집행률 100%)')}${kpi('105명','참여자 (목표 100명, 105%)')}${kpi('4.84점','행사 전반 만족도(5점) · 100점 환산 96.8점')}${kpi('5개사','건국대 참여기업')}</div>
       <table class="prog-table"><thead><tr><th>세션</th><th>운영 개요</th><th>건국대 참여기업</th></tr></thead><tbody>
@@ -1367,13 +1399,44 @@ function renderPrograms(){
       <p class="prog-foot"><b>후속 연계 희망</b> — 현대건설: REBLOCK · 직행 / 베론글로벌: 뉴런즈 · 자이스웍스 · 그레타 · 넥스트솔 · 넥스포톤 / THE GARRISON: REBLOCK · 비욘드메디슨 (기업 IR 자료 확인 후 담당자 연결 추진).</p></div>`
   ];
   document.getElementById('progGrid').innerHTML = cards.join('');
-  document.getElementById('progTotal').innerHTML = '<b>4개 프로그램 집행 합계 163,050,700원</b> (경진대회 117,935,800원 + 플리마켓 1,350,000원 + 창업스쿨 35,764,900원 + 연합포럼 8,000,000원). 이 중 기업에 직접 지급·지원된 금액은 시상금 500만원과 창업지원금 1억원, 플리마켓 부스 참여비용 135만원입니다.';
+  document.getElementById('progTotal').innerHTML = '<b>4개 프로그램 집행 합계 173,447,800원</b> (경진대회 117,935,800원 + 창업스쿨 35,764,900원 + 쇼케이스 11,747,100원[플리마켓 1,350,000 · 반함축제 10,309,100 · 대동제 88,000] + 연합포럼 8,000,000원). 이 중 기업에 직접 지급·지원된 금액은 시상금 500만원과 창업지원금 1억원, 플리마켓 부스 참여비용 135만원입니다. 반함축제·대동제는 부스·현수막 등 행사 운영비로 집행되어 기업별 지원금에는 포함하지 않았습니다.';
 }
-const ptState = { key:'rank', dir:1, hideZero:false };
+const ptState = { key:'rank', dir:1, hideZero:false, prog:'all' };
+const PT_FILTERS = [
+  {k:'all', label:'전체', fn:()=>true},
+  {k:'award', label:'경진대회 시상', fn:p=>p.award.length>0},
+  {k:'grant', label:'창업지원금', fn:p=>p.grant>0},
+  {k:'showcase', label:'쇼케이스', fn:p=>p.showcase.length>0, subs:[
+    {k:'sc-flea', label:'플리마켓', fn:p=>p.flea},
+    {k:'sc-banham', label:'반함축제', fn:p=>p.fest.includes('반함축제')},
+    {k:'sc-daedong', label:'대동제', fn:p=>p.fest.includes('대동제')}
+  ]},
+  {k:'school', label:'창업스쿨', fn:p=>p.school.length>0, subs:[
+    {k:'sch-b', label:'사업계획서 멘토링', fn:p=>!!p.b},
+    {k:'sch-t', label:'TECH-UP', fn:p=>!!p.t},
+    {k:'sch-d', label:'IR 데모데이·U300+', fn:p=>!!p.d}
+  ]},
+  {k:'forum', label:'연합포럼', fn:p=>p.forum.length>0}
+];
+function ptFilterFn(k){
+  for(const f of PT_FILTERS){ if(f.k===k) return f.fn; for(const s of (f.subs||[])) if(s.k===k) return s.fn; }
+  return ()=>true;
+}
+function renderPtFilter(){
+  const all = Object.values(PART);
+  const btn = (f,sub)=>`<button type="button" class="ftab${sub?' sub':''}${ptState.prog===f.k?' is-active':''}" data-k="${f.k}" aria-pressed="${ptState.prog===f.k}">${esc(f.label)}<span class="cnt">${all.filter(f.fn).length}</span></button>`;
+  document.getElementById('ptFilter').innerHTML = PT_FILTERS.map(f=> f.subs
+    ? `<span class="pf-group">${btn(f)}${f.subs.map(s=>btn(s,true)).join('')}</span>`
+    : btn(f)).join('');
+  document.querySelectorAll('#ptFilter .ftab').forEach(el=> el.addEventListener('click',()=>{
+    ptState.prog = el.getAttribute('data-k'); renderPtFilter(); renderPartTable();
+  }));
+}
 function renderPartTable(){
-  const val = (p,k)=>({rank:p.rank,name:p.name,route:p.route,prize:p.prize,grant:p.grant,flea:p.flea?1:0,school:p.school.length,forum:p.forum.length,items:p.items,money:p.money})[k];
+  const val = (p,k)=>({rank:p.rank,name:p.name,route:p.route,prize:p.prize,grant:p.grant,showcase:p.showcase.length,school:p.school.length,forum:p.forum.length,items:p.items,money:p.money})[k];
   let rows = Object.values(PART);
   if(ptState.hideZero) rows = rows.filter(p=>p.items>0);
+  rows = rows.filter(ptFilterFn(ptState.prog));
   rows.sort((a,b)=>{
     const x=val(a,ptState.key), y=val(b,ptState.key);
     const r = typeof x==='string' ? x.localeCompare(y,'ko') : x-y;
@@ -1387,7 +1450,7 @@ function renderPartTable(){
       <td>${esc(p.route)}</td>
       <td>${p.award.length ? p.award.map(a=>`<span class="chip c-award">${esc(a)}</span>`).join(' ')+' <span class="num">'+WON(p.prize)+'</span>' : '-'}</td>
       <td class="num">${p.grant>0 ? WON(p.grant) : '-'}</td>
-      <td>${p.flea ? '<span class="chip c-flea">참가</span>' : '-'}</td>
+      <td>${p.showcase.length ? p.showcase.map(sc=>`<span class="chip c-flea">${esc(sc)}</span>`).join(' ') : '-'}</td>
       <td>${p.school.length ? p.school.map(s=>`<span class="chip c-school">${esc(s)}</span>`).join(' ') : '-'}</td>
       <td>${p.forum.length ? (p.forumAward?'<span class="chip c-award">'+esc(p.forumAward.replace('연합포럼 ',''))+'</span> ':'')+p.forum.map(s=>`<span class="chip c-forum">${esc(s)}</span>`).join(' ') : '-'}</td>
       <td class="num">${p.items}</td>
@@ -1477,6 +1540,7 @@ function renderAll(){
   renderTimeline();
   renderTop10();
   renderPrograms();
+  renderPtFilter();
   renderPartTable();
   renderTable();
 }
